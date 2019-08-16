@@ -22,7 +22,9 @@ describe('auth routes', () => {
         address:'lagos', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of business' 
+        expertise: 'student of business',
+        admin:false,
+        mentor: false
         })
       .end((err, res) => {
         res.status.should.equal(201);
@@ -41,7 +43,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false 
     })
       .end((err, res) => {
         res.status.should.equal(409);
@@ -60,7 +64,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false 
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -79,7 +85,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false 
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -98,7 +106,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false 
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -117,7 +127,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false 
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -136,7 +148,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -155,7 +169,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false 
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -174,7 +190,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -193,7 +211,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law' ,
+        admin:false,
+        mentor: false
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -212,7 +232,9 @@ it('test signUp ifUserExist', (done) => {
         address: 90, 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law'
+        expertise: 'student of law',
+        admin:false,
+        mentor: false
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -231,7 +253,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 70,
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -250,7 +274,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 90,
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false
        })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -269,7 +295,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio:'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 90
+        expertise: 90,
+        admin:false,
+        mentor: false
        })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -288,7 +316,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false 
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -307,7 +337,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -326,7 +358,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -345,7 +379,9 @@ it('test signUp ifUserExist', (done) => {
         address:'w', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -364,7 +400,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -383,7 +421,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false 
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -402,7 +442,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false 
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -422,7 +464,9 @@ it('test signUp ifUserExist', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false 
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -441,7 +485,9 @@ it('validate required address', (done) => {
         address:'', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false 
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -460,7 +506,9 @@ it('validate required address', (done) => {
         address:'wakiso', 
         bio: '',
         occupation: 'unversity student',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false 
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -479,7 +527,9 @@ it('validate required address', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: '',
-        expertise: 'student of law' 
+        expertise: 'student of law',
+        admin:false,
+        mentor: false 
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -498,7 +548,9 @@ it('validate required address', (done) => {
         address:'wakiso', 
         bio: 'born in November 4, 1989',
         occupation: 'unversity student',
-        expertise: '' 
+        expertise: '' ,
+        admin:false,
+        mentor: false
         })
       .end((err, res) => {
         res.status.should.equal(400);
@@ -532,6 +584,7 @@ it('validate required address', (done) => {
         done();
       });
   });
+  
   it('signIn on wrong details', (done) => {
     request(app)
       .post('/api/v1/users/auth/signin')
@@ -545,4 +598,7 @@ it('validate required address', (done) => {
         done();
       });
   });
+  
 });
+
+
