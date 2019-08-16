@@ -7,7 +7,9 @@ export const users = [
     address:'wakiso', 
     bio: 'born in November 4, 1989',
     occupation: 'unversity student',
-    expertise: 'student of law' 
+    expertise: 'student of law', 
+    admin: false,
+    mentor:false
 },
 {   id:2, 
     firstName:'sherifa', 
@@ -17,7 +19,9 @@ export const users = [
     address:'kigali', 
     bio: 'Born in december 6, 1990',
     occupation: 'software developer',
-    expertise: 'honors a bachalors degree in computer science' 
+    expertise: 'honors a bachalors degree in computer science',
+    admin: true,
+    mentor:false
 },
 {   id:3, 
     firstName:'betty', 
@@ -27,6 +31,46 @@ export const users = [
     address:'hoima', 
     bio: 'Born in may 20, 1995',
     occupation: 'young entreprenuer',
-    expertise: 'honors a bachalors degree in business adminstration' 
+    expertise: 'honors a bachalors degree in business adminstration',
+    admin: false,
+    mentor:false
+
+},
+{   id:4, 
+    firstName:'martin', 
+    lastName:'luther', 
+    email:'martin@gmail.com',
+    password:'martin5555', 
+    address:'kigali', 
+    bio: 'Born on November 4, 1956',
+    occupation: ' professional lawyer',
+    expertise: 'law activist and politician',
+    admin: false,
+    mentor:true
+},
+{   id:5, 
+    firstName:'john', 
+    lastName:'blaq', 
+    email:'john@gmail.com',
+    password:'john5555', 
+    address:'kampala', 
+    bio: 'Born on may 4, 1982',
+    occupation: 'leader of human rights movement',
+    expertise: 'activist, politician and a successful entreprenuer', 
+    admin: false,
+    mentor:true
+},
+{   id:6, 
+    firstName:'billy', 
+    lastName:'blanks', 
+    email:'billy@gmail.com',
+    password:'billy5555', 
+    address:'lagos', 
+    bio: 'Born on November 4, 1956',
+    occupation: 'fashion designer',
+    expertise: 'stage modeling, fashion and design',
+    admin: false,
+    mentor:true
 }
+
     ];

@@ -1,3 +1,28 @@
+import { users }from '../models/users';
+const appSecretkey = 'tesyuseyeyseyuwu'
+ import jwt from 'jsonwebtoken';
+
+ export function getToken(req, res, next) {
+    const bearerHeader = req.headers.authorization;
+    if (typeof bearerHeader === 'undefined') return res.status(403).send({ error: 403, message: 'provide a token' });
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    req.token = bearerToken;
+    next();
+  }
+  export const verifyUserToken =(req, res, next) =>{
+    jwt.verify(req.token, appSecretkey, (err, userFromToken) => {
+     if (err) return res.status(403).json({ error: 403, message: err.message });
+     next();
+    })
+   }
+   export const userAdmin = (req, res, next)=> {
+    jwt.verify(req.token, appSecretkey, (err, user) => {
+     if (err) return res.status(403).json({ error: 403, message: err.message });
+    if( user.admin === false) return res.status(403).send({error:403,message:'for only admin'});
+    next();
+  }) 
+}
 export const validation = (req, res, next)=> {
 
     // validate required
@@ -34,3 +59,5 @@ export const validation = (req, res, next)=> {
     
     next()
     }
+
+    
