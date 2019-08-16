@@ -11,7 +11,7 @@ const appSecretkey = 'tesyuseyeyseyuwu'
     next();
   }
   export const verifyUserToken =(req, res, next) =>{
-    jwt.verify(req.token, appSecretkey, (err, userFromToken) => {
+    jwt.verify(req.token, appSecretkey, (err, user) => {
      if (err) return res.status(403).json({ error: 403, message: err.message });
      next();
     })
