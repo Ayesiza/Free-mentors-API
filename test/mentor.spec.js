@@ -44,6 +44,15 @@ describe('Tests user-mentor routes', () => {
       done();
     });
   });
-  
-   });
-  
+  it('tests allMentors', (done) => {
+    request(app)
+        .get('/api/v1/mentors')
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+            res.status.should.equal(200);
+           
+            done();
+        });
+     });
+
+});
