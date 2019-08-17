@@ -16,16 +16,16 @@ export const signUpUser = (req,res) =>{
       const user = users.find(user => user.email === req.body.email);
       if(!user)return res.status(404).send({message:'user not found'});
       if(user.password !== req.body.password) return res.status(400).send({message:'wrong email or password'})
-      const token = jwt.sign({user}, 'tesyuseyeyseyuwu', { expiresIn: '24hr' });
+      const token = jwt.sign(user, 'tesyuseyeyseyuwu', { expiresIn: '24hr' });
       user.token = token;
       res.send({status:200,message:'User is successfully logged in', token})
     }
  export const getAllMentors =(req,res) => {
         const mentors =  users.filter(user =>user.mentor === true )
-         if(mentors ) return res.send({status:200, mentors})
+         res.send({status:200, mentors})
         }
         
-export const changeUserToMentor= (req,res) =>{
+export const changeUserToMentor = (req,res) =>{
     const checkInput = req.params.id.match(/^[0-9]+$/);
     if (!checkInput) return res.status(400).send({ error: 400, message: 'parameter should be a valid number' });
    const user =users.find(c => c.id === parseInt(req.params.id))
@@ -34,3 +34,13 @@ export const changeUserToMentor= (req,res) =>{
    user.mentor = true
    if(user.mentor === true) return res.send({status:200, message:'User account changed to mentor'})
 }
+
+export const specificMentor = (req,res) =>{
+    const checkInput = req.params.id.match(/^[0-9]+$/);
+    if(!checkInput) return res.status(400).send({error:400, message:'parameter should be a valid number'})
+    const user = users.find(a => a.id === parseInt(req.params.id))
+    if(!user) return res.status(404).send({status:404, message:'user of the given Id not found'})
+    if(user.mentor === false) return res.status(400).send({status:400, message:'user is not a mentor'}) 
+    res.send({status:200, message:'specific mentor found',user}) 
+  };
+
