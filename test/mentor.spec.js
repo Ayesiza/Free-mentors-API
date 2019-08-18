@@ -77,9 +77,7 @@ it('changeUserToMentor invalid input', (done) => {
                  done();
             });
         });
-       
-
-        it('changeUserToMentor verifyToken', (done) => {
+    it('changeUserToMentor verifyToken', (done) => {
             request(app)
                 .patch('/api/v1/user/1')
                 .set('Authorization', `Bearer userToken`)
