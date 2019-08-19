@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import {users} from '../models/users';
 
-export const signUpUser = (req,res) =>{
+export class UserController{
+signUpUser (req,res){
     const {firstName, lastName, email, password, address, bio, occupation, expertise, admin, mentor} = req.body;
     const id = users.length + 1;
     const user = {id, firstName,lastName,email,password,address, bio, occupation, expertise,admin, mentor}
@@ -12,7 +13,7 @@ export const signUpUser = (req,res) =>{
         user.token = token;
         res.status(201).send({status:201,message:'User created successfully',id,token});
   };
-  export const signInUser =(req,res) =>{
+  signInUser(req,res){
       const user = users.find(user => user.email === req.body.email);
       if(!user)return res.status(404).send({message:'user not found'});
       if(user.password !== req.body.password) return res.status(400).send({message:'wrong email or password'})
@@ -20,22 +21,22 @@ export const signUpUser = (req,res) =>{
       user.token = token;
       res.send({status:200,message:'User is successfully logged in', token})
     }
- export const getAllMentors =(req,res) => {
+ getAllMentors(req,res){
         const mentors =  users.filter(user =>user.mentor === true )
          res.send({status:200, mentors})
         }
         
-export const changeUserToMentor = (req,res) =>{
+changeUserToMentor(req,res){
     const checkInput = req.params.id.match(/^[0-9]+$/);
     if (!checkInput) return res.status(400).send({ error: 400, message: 'parameter should be a valid number' });
    const user =users.find(c => c.id === parseInt(req.params.id))
    if(!user) return res.status(404).send({status:404, message:'user of the given Id not found'})
    if(user.mentor === true) return res.send({status:409, message:'User is already a mentor'})
    user.mentor = true
-   if(user.mentor === true) return res.send({status:200, message:'User account changed to mentor'})
+   res.send({status:200, message:'User account changed to mentor'})
 }
 
-export const specificMentor = (req,res) =>{
+specificMentor(req,res){
     const checkInput = req.params.id.match(/^[0-9]+$/);
     if(!checkInput) return res.status(400).send({error:400, message:'parameter should be a valid number'})
     const user = users.find(a => a.id === parseInt(req.params.id))
@@ -44,3 +45,4 @@ export const specificMentor = (req,res) =>{
     res.send({status:200, message:'specific mentor found', user}) 
   };
 
+}
