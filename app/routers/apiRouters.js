@@ -1,20 +1,21 @@
 import express from 'express'
-import { signUpUser, signInUser, getAllMentors,changeUserToMentor, specificMentor } from '../controllers/userControllers'
+import { UserController } from '../controllers/userControllers'
 import { getToken,validation, verifyUserToken, userAdmin, userMentor} from '../middlewares/auth'
 // import { userMentor } from '../middlewares/session'
-import { createSession, acceptMentorshipSession, rejectSession } from '../controllers/sessionsConrollers'
+import { SessionController } from '../controllers/sessionsConrollers'
 
-
+const user = new UserController;
+const session = new SessionController;
 const router = express.Router()
 
-router.post('/users/auth/signup', validation, signUpUser);
-router.post('/users/auth/signin', signInUser);
-router.patch('/user/:id',  getToken, verifyUserToken,userAdmin, changeUserToMentor);
-router.get('/mentors', getToken, getAllMentors);
-router.get('/mentor/:id', getToken, specificMentor);
-router.post('/sessions',getToken, verifyUserToken, createSession);
-router.patch('/sessions/:id/accept', getToken, verifyUserToken, userMentor, acceptMentorshipSession);
-router.patch('/sessions/:id/reject', getToken, verifyUserToken, userMentor, rejectSession);
+router.post('/users/auth/signup', validation, user.signUpUser);
+router.post('/users/auth/signin', user.signInUser);
+router.patch('/user/:id',  getToken, verifyUserToken,userAdmin, user.changeUserToMentor);
+router.get('/mentors', getToken, user.getAllMentors);
+router.get('/mentor/:id', getToken, user.specificMentor);
+router.post('/sessions',getToken, verifyUserToken, session.createSession);
+router.patch('/sessions/:id/accept', getToken, verifyUserToken, userMentor, session.acceptMentorshipSession);
+router.patch('/sessions/:id/reject', getToken, verifyUserToken, userMentor, session.rejectSession);
 
 
 

@@ -37,6 +37,16 @@ describe('Tests session routes', () => {
                 done();
             });
     });
+    it('reject mentorship session for mentor', (done) => {
+        request(app)
+            .patch('/api/v1/sessions/1/reject')
+            .set('Authorization', `Bearer ${token}`)
+            .end((err, res) => {
+                res.status.should.equal(403);
+                res.body.message.should.equal('for only mentor');
+                done();
+            });
+    });
 });
 
 describe('Tests mentoship  sessions routes', () => {
@@ -64,10 +74,28 @@ describe('Tests mentoship  sessions routes', () => {
     });
     it('accept mentorship session', (done) => {
         request(app)
+            .patch('/api/v1/sessions/9/accept')
+            .set('Authorization', `Bearer ${token}`)
+            .end((err, res) => {
+                res.status.should.equal(404);
+                done();
+            });
+    });
+    it('reject mentorship session', (done) => {
+        request(app)
             .patch('/api/v1/sessions/1/reject')
             .set('Authorization', `Bearer ${token}`)
             .end((err, res) => {
                 res.status.should.equal(200);
+                done();
+            });
+    });
+    it('reject mentorship session', (done) => {
+        request(app)
+            .patch('/api/v1/sessions/10/reject')
+            .set('Authorization', `Bearer ${token}`)
+            .end((err, res) => {
+                res.status.should.equal(404);
                 done();
             });
     });
