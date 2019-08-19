@@ -24,6 +24,13 @@ const appSecretkey = 'tesyuseyeyseyuwu'
     next();
   }) 
 }
+export const userMentor = (req, res, next)=> {
+  jwt.verify(req.token, appSecretkey, (err, user) => {
+   if (err) return res.status(403).json({ error: 403, message: err.message });
+  if( user.mentor === false) return res.status(403).send({error:403,message:'for only mentor'});
+  next();
+}) 
+}
 export const validation = (req, res, next)=> {
 
     // validate required

@@ -10,20 +10,20 @@ app.use('/api/v1/', apiRouters)
 
 
 
-app.all('/*', (req, res) => {
-    res.status(404).json({
-        status: 404,
-        error: 'this  does not exist'
-    });
-});
+// app.all('/*', (req, res) => {
+//     res.status(404).json({
+//         status: 404,
+//         error: 'this  does not exist'
+//     });
+// });
 
 
-app.use((err, req, res, next) => {
-    res.status(500).json({
-        status: '500',
-        error: 'oops! something went wrong'
-    });
-});
+// app.use((err, req, res, next) => {
+//     res.status(500).json({
+//         status: '500',
+//         error: 'oops! something went wrong'
+//     });
+// });
 
 
 
