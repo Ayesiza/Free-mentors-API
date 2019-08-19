@@ -1,4 +1,13 @@
 # Free-mentors-API
+
+[![Build Status](https://travis-ci.org/Ayesiza/Free-mentors-API.svg?branch=develop)](https://travis-ci.org/Ayesiza/Free-mentors-API)
+
+[![Coverage Status](https://coveralls.io/repos/github/Ayesiza/Free-mentors-API/badge.svg?branch=develop)](https://coveralls.io/github/Ayesiza/Free-mentors-API?branch=develop)
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/912fd1e46671be35c9fb/maintainability)](https://codeclimate.com/github/Ayesiza/Free-mentors-API/maintainability)
+
+
+## Description
 Free Mentors is a social initiative where accomplished professionals become role models to young people to provide free mentorship sessions
 
 ## Language used
