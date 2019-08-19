@@ -1,7 +1,8 @@
 import express from 'express'
 import { signUpUser, signInUser, getAllMentors,changeUserToMentor, specificMentor } from '../controllers/userControllers'
-import { getToken,validation, verifyUserToken, userAdmin } from '../middlewares/auth'
-import { createSession } from '../controllers/sessionsConrollers'
+import { getToken,validation, verifyUserToken, userAdmin, userMentor} from '../middlewares/auth'
+// import { userMentor } from '../middlewares/session'
+import { createSession, acceptMentorshipSession } from '../controllers/sessionsConrollers'
 
 
 const router = express.Router()
@@ -12,6 +13,7 @@ router.patch('/user/:id',  getToken, verifyUserToken,userAdmin, changeUserToMent
 router.get('/mentors', getToken, getAllMentors);
 router.get('/mentor/:id', getToken, specificMentor);
 router.post('/sessions',getToken, verifyUserToken, createSession);
+router.patch('/sessions/:id/accept', getToken, verifyUserToken, userMentor, acceptMentorshipSession);
 
 
 

@@ -28,6 +28,7 @@ describe('Tests session routes', () => {
         request(app)
             .post('/api/v1/sessions')
             .set('Authorization', `Bearer ${token}`)
+            .set('Accept', 'application/json')
             .send({
                 mentorId: 40,
                 questions: 'Which leadership skills were the most difficult to develop?'
@@ -37,5 +38,32 @@ describe('Tests session routes', () => {
              done();
         });
     });
-  
+});
+
+
+describe('Tests mentoship  sessions routes', () => {
+    let token = '';
+    before ((done) => {
+        request(app)
+            .post('/api/v1/users/auth/signin')
+            .send({
+            
+                 email:'martin@gmail.com',
+                 password:'martin5555'
+           
+            })
+            .end((err, res) => {
+                token = res.body.token;
+                done();
+            });
+    });
+    it('accept mentorship session', (done) => {
+        request(app)
+            .patch('/api/v1/sessions/2/accept')
+            .set('Authorization', `Bearer ${token}`)
+            .end((err, res) => {
+                res.status.should.equal(200);
+            done();
+        });
+    });
 });
