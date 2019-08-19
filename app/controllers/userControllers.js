@@ -41,6 +41,6 @@ export const specificMentor = (req,res) =>{
     const user = users.find(a => a.id === parseInt(req.params.id))
     if(!user) return res.status(404).send({status:404, message:'user of the given Id not found'})
     if(user.mentor === false) return res.status(400).send({status:400, message:'user is not a mentor'}) 
-    res.send({status:200, message:'specific mentor found',user}) 
+    res.send({status:200, message:'specific mentor found', user}) 
   };
 

@@ -18,5 +18,12 @@ export const acceptMentorshipSession = (req,res) =>{
    if(!session) return res.status(404).send({status:404, message:'session of the given Id not found'})
    session.status = 'accepted'
    res.send({status:200, session})
-
 }
+
+export const rejectSession = (req,res) =>{ 
+    const session = sessions.find(session => session.sessionId === parseInt(req.params.id))
+    if(!session) return res.status(404).send({status:404, message:'session of the given Id not found'})
+    session.status = 'rejected'
+    res.send({status:200, session})
+ }
+ 

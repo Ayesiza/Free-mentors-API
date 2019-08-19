@@ -9,10 +9,9 @@ app.use(express.json());
 
 app.use('/api/v1/', apiRouters);
 
-
 describe('Tests session routes', () => {
     let token = '';
-    before ((done) => {
+    before((done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
             .send({
@@ -35,22 +34,19 @@ describe('Tests session routes', () => {
             })
             .end((err, res) => {
                 res.status.should.equal(200);
-             done();
-        });
+                done();
+            });
     });
 });
 
-
 describe('Tests mentoship  sessions routes', () => {
     let token = '';
-    before ((done) => {
+    before((done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
             .send({
-            
-                 email:'martin@gmail.com',
-                 password:'martin5555'
-           
+                email: 'martin@gmail.com',
+                password: 'martin5555'
             })
             .end((err, res) => {
                 token = res.body.token;
@@ -63,7 +59,16 @@ describe('Tests mentoship  sessions routes', () => {
             .set('Authorization', `Bearer ${token}`)
             .end((err, res) => {
                 res.status.should.equal(200);
-            done();
-        });
+                done();
+            });
+    });
+    it('accept mentorship session', (done) => {
+        request(app)
+            .patch('/api/v1/sessions/1/reject')
+            .set('Authorization', `Bearer ${token}`)
+            .end((err, res) => {
+                res.status.should.equal(200);
+                done();
+            });
     });
 });
