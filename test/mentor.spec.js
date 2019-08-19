@@ -9,10 +9,9 @@ app.use(express.json());
 
 app.use('/api/v1/', apiRouters);
 
-
 describe('Tests usermentor routes', () => {
     let adminToken = '';
-    before ((done) => {
+    before((done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
             .send({
@@ -24,7 +23,7 @@ describe('Tests usermentor routes', () => {
                 done();
             });
     });
-    
+
     it('changeUserToMentor', (done) => {
         request(app)
             .patch('/api/v1/user/1')
@@ -32,67 +31,66 @@ describe('Tests usermentor routes', () => {
             .end((err, res) => {
                 res.status.should.equal(200);
                 res.body.message.should.equal('User account changed to mentor');
-             done();
-        });
+                done();
+            });
     });
-   
+
     it(' changeUserToMentor not exist', (done) => {
-    request(app)
-    .post('/api/v1/user/10')
-     .set('Authorization', `Bearer ${adminToken}`)
-    .end((err, res) => {
-        res.status.should.equal(404);
+        request(app)
+            .post('/api/v1/user/10')
+            .set('Authorization', `Bearer ${adminToken}`)
+            .end((err, res) => {
+                res.status.should.equal(404);
 
-      done();
+                done();
+            });
     });
-  });
-       
-it('changeUserToMentor invalid input', (done) => {
-            request(app)
-                .patch('/api/v1/user/b1')
-                .set('Authorization', `Bearer ${adminToken}`)
-                .end((err, res) => {
-                    res.status.should.equal(400);
-                    res.body.message.should.equal('parameter should be a valid number');
-                    done();
-             });
-        });
-        it('changeUserToMentor userId not found', (done) => {
-            request(app)
-                .patch('/api/v1/user/10')
-                .set('Authorization', `Bearer ${adminToken}`)
-                .end((err, res) => {
-                    res.status.should.equal(404);
-                    res.body.message.should.equal('user of the given Id not found');
-                    done();
-             });
-        });
-        it('changeUserToMentor already mentor', (done) => {
-            request(app)
-                .patch('/api/v1/user/4')
-                .set('Authorization', `Bearer ${adminToken}`)
-                .end((err, res) => {
-                   
-                    res.body.message.should.equal('User is already a mentor');
-                 done();
-            });
-        });
-    it('changeUserToMentor verifyToken', (done) => {
-            request(app)
-                .patch('/api/v1/user/1')
-                .set('Authorization', `Bearer userToken`)
-                .end((err, res) => {
-                    res.status.should.equal(403);
-                   
-                 done();
-            });
-        });   
-});
 
+    it('changeUserToMentor invalid input', (done) => {
+        request(app)
+            .patch('/api/v1/user/b1')
+            .set('Authorization', `Bearer ${adminToken}`)
+            .end((err, res) => {
+                res.status.should.equal(400);
+                res.body.message.should.equal('parameter should be a valid number');
+                done();
+            });
+    });
+    it('changeUserToMentor userId not found', (done) => {
+        request(app)
+            .patch('/api/v1/user/10')
+            .set('Authorization', `Bearer ${adminToken}`)
+            .end((err, res) => {
+                res.status.should.equal(404);
+                res.body.message.should.equal('user of the given Id not found');
+                done();
+            });
+    });
+    it('changeUserToMentor already mentor', (done) => {
+        request(app)
+            .patch('/api/v1/user/4')
+            .set('Authorization', `Bearer ${adminToken}`)
+            .end((err, res) => {
+
+                res.body.message.should.equal('User is already a mentor');
+                done();
+            });
+    });
+    it('changeUserToMentor verifyToken', (done) => {
+        request(app)
+            .patch('/api/v1/user/1')
+            .set('Authorization', `Bearer userToken`)
+            .end((err, res) => {
+                res.status.should.equal(403);
+
+                done();
+            });
+    });
+});
 
 describe('Tests all usermentor routes', () => {
     let userToken = '';
-    before ((done) => {
+    before((done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
             .send({
@@ -104,18 +102,18 @@ describe('Tests all usermentor routes', () => {
                 done();
             });
     });
-    
-  it('tests allMentors', (done) => {
-    request(app)
-        .get('/api/v1/mentors')
-        .set('Authorization', `Bearer ${userToken}`)
-        .end((err, res) => {
-            res.status.should.equal(200);
-           
-            done();
-        });
-     });
-    
+
+    it('tests allMentors', (done) => {
+        request(app)
+            .get('/api/v1/mentors')
+            .set('Authorization', `Bearer ${userToken}`)
+            .end((err, res) => {
+                res.status.should.equal(200);
+
+                done();
+            });
+    });
+
     it('tests allMentors get token', (done) => {
         request(app)
             .get('/api/v1/mentors')
@@ -124,23 +122,23 @@ describe('Tests all usermentor routes', () => {
                 res.body.message.should.equal('provide a token');
                 done();
             });
-         }); 
-        
-         it('changeUserToMentor adminFalse', (done) => {
-            request(app)
-                .patch('/api/v1/user/1')
-                .set('Authorization', `Bearer ${userToken}`)
-                .end((err, res) => {
-                   
-                    res.body.message.should.equal('for only admin');
-                 done();
+    });
+
+    it('changeUserToMentor adminFalse', (done) => {
+        request(app)
+            .patch('/api/v1/user/1')
+            .set('Authorization', `Bearer ${userToken}`)
+            .end((err, res) => {
+
+                res.body.message.should.equal('for only admin');
+                done();
             });
-     });              
+    });
 });
 
 describe('Tests all specific mentor routes', () => {
     let userToken = '';
-    before ((done) => {
+    before((done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
             .send({
@@ -170,9 +168,9 @@ describe('Tests all specific mentor routes', () => {
                 res.status.should.equal(400);
                 res.body.message.should.equal('parameter should be a valid number');
                 done();
-         });
+            });
     });
-   
+
     it('specficMentor not found', (done) => {
         request(app)
             .get('/api/v1/mentor/10')
@@ -181,7 +179,7 @@ describe('Tests all specific mentor routes', () => {
                 res.status.should.equal(404);
                 res.body.message.should.equal('user of the given Id not found');
                 done();
-         });
+            });
     });
     it('specficMentor not a mentor', (done) => {
         request(app)
@@ -191,7 +189,6 @@ describe('Tests all specific mentor routes', () => {
                 res.status.should.equal(400);
                 res.body.message.should.equal('user is not a mentor');
                 done();
-         });
-    }); 
+            });
+    });
 });
-    
