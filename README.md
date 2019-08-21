@@ -52,7 +52,7 @@ supertest
 
 run  `npm run test` 
 
-### Endpoints  : Route/api/v1/ 
+### Endpoints  : Route('api/v1/')
 
 Method| Route |Action/End point | Access 
 ---------|-----------------|--------------------|-----------
