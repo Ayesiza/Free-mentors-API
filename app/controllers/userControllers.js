@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import {users} from '../models/users';
 
 export class UserController{
-signUpUser (req,res){
+static signUpUser (req,res){
     const {firstName, lastName, email, password, address, bio, occupation, expertise, admin, mentor} = req.body;
     const id = users.length + 1;
     const user = {id, firstName,lastName,email,password,address, bio, occupation, expertise,admin, mentor}
@@ -13,7 +13,7 @@ signUpUser (req,res){
         user.token = token;
         res.status(201).send({status:201,message:'User created successfully',id,token});
   };
-  signInUser(req,res){
+  static signInUser(req,res){
       const user = users.find(user => user.email === req.body.email);
       if(!user)return res.status(404).send({message:'user not found'});
       if(user.password !== req.body.password) return res.status(400).send({message:'wrong email or password'})
@@ -21,12 +21,12 @@ signUpUser (req,res){
       user.token = token;
       res.send({status:200,message:'User is successfully logged in', token})
     }
- getAllMentors(req,res){
+ static getAllMentors(req,res){
         const mentors =  users.filter(user =>user.mentor === true )
          res.send({status:200, mentors})
         }
         
-changeUserToMentor(req,res){
+static changeUserToMentor(req,res){
     const checkInput = req.params.id.match(/^[0-9]+$/);
     if (!checkInput) return res.status(400).send({ error: 400, message: 'parameter should be a valid number' });
    const user =users.find(c => c.id === parseInt(req.params.id))
@@ -36,7 +36,7 @@ changeUserToMentor(req,res){
    res.send({status:200, message:'User account changed to mentor'})
 }
 
-specificMentor(req,res){
+static specificMentor(req,res){
     const checkInput = req.params.id.match(/^[0-9]+$/);
     if(!checkInput) return res.status(400).send({error:400, message:'parameter should be a valid number'})
     const user = users.find(a => a.id === parseInt(req.params.id))
@@ -46,3 +46,4 @@ specificMentor(req,res){
   };
 
 }
+export default UserController;

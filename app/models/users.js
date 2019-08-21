@@ -30,7 +30,7 @@ export const users = [
     password:'betty5555', 
     address:'hoima', 
     bio: 'Born in may 20, 1995',
-    occupation: 'young entreprenuer',
+    occupation: 'entreprenuer',
     expertise: 'honors a bachalors degree in business adminstration',
     admin: false,
     mentor:false
