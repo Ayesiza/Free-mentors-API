@@ -156,7 +156,6 @@ describe('Tests all specific mentor routes', () => {
             .set('Authorization', `Bearer ${userToken}`)
             .end((err, res) => {
                 res.status.should.equal(200);
-                res.body.message.should.equal('specific mentor found');
                 done();
             });
     });
@@ -181,14 +180,5 @@ describe('Tests all specific mentor routes', () => {
                 done();
             });
     });
-    it('specficMentor not a mentor', (done) => {
-        request(app)
-            .get('/api/v1/mentor/2')
-            .set('Authorization', `Bearer ${userToken}`)
-            .end((err, res) => {
-                res.status.should.equal(400);
-                res.body.message.should.equal('user is not a mentor');
-                done();
-            });
-    });
+  
 });

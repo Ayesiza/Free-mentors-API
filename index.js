@@ -18,13 +18,16 @@ app.all('/*', (req, res) => {
 });
 
 
-app.use((err, req, res, next) => {
-    res.status(500).json({
-        status: '500',
-        error: 'oops! something went wrong'
-    });
-});
-
+app.use((req, res, next) => {
+    const error = new Error('method used is not allowed');
+    error.status = 405;
+    next(error);
+  });
+  
+  app.use((error, req, res, next) => {
+    res.status(error.status || 500).send({ error: error.status || 500, message: error.message });
+    next();
+  });
 
 
 app.listen(port, () => console.log(`listening on port ${port}...`));

@@ -1,5 +1,6 @@
-import { users }from '../models/users';
-import { sessions }from '../models/sessions';
+import { users }from '../data/userData';
+import User from '../models/users';
+import { sessions }from '../data/sessionData';
 const appSecretkey = 'tesyuseyeyseyuwu'
  import jwt from 'jsonwebtoken';
 
@@ -26,9 +27,41 @@ const appSecretkey = 'tesyuseyeyseyuwu'
 
 export const userMentor = (req, res, next)=> {
   if( req.user.mentor === false) return res.status(403).send({error:403,message:'for only mentor'});
-  next()
+  next();
 }
 
+export const checkIfUserExist = (req, res,next) => {
+  const finduser = User.getUserByEmail(req.body.email);
+  if(finduser) return res.status(409).send({status:409, message:'user already exist'})
+  next();
+}
+
+// export const signToken =(req,res,next) => {
+//   const token = jwt.sign(req.body, 'tesyuseyeyseyuwu', { expiresIn: '24hr' });
+//   req.token = token;
+//   next();
+// }
+
+export const checkIfUserNotExist =(req,res,next) => {
+  const user = User.getUserByEmail(req.body.email);
+  if(!user)return res.status(404).send({message:'user not found'});
+  if(user.password !== req.body.password) return res.status(400).send({message:'wrong email or password'})
+  req.token = jwt.sign(user, 'tesyuseyeyseyuwu', { expiresIn: '24hr' });
+  next();
+}
+
+export const checkParamsInPut = (req, res, next) => {
+  const checkInput = req.params.id.match(/^[0-9]+$/);
+  if(!checkInput) return res.status(400).send({error:400, message:'parameter should be a valid number'})
+  next();
+}
+
+export const getUserById = (req,res,next) => {
+  const user = User.getUserById(req.params.id)
+  if(!user) return res.status(404).send({status:404, message:'user of the given Id not found'})
+  req.user = user
+next();
+}
 export const validation = (req, res, next)=> {
     // validate matches
     if(!req.body.firstName.match(/^[a-zA-Z]{3,30}$/)) return res.status(400).send({error:400, message:'firstName is invalid'})
@@ -38,5 +71,6 @@ export const validation = (req, res, next)=> {
    
     next()
 }
+
 
     

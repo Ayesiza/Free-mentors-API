@@ -74,7 +74,7 @@ https://www.pivotaltracker.com/n/projects/2379596
 
 
 
-### status codes used
+### Status Codes used
 
 ###### Success Response:
 
