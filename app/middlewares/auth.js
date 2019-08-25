@@ -36,11 +36,6 @@ export const checkIfUserExist = (req, res,next) => {
   next();
 }
 
-// export const signToken =(req,res,next) => {
-//   const token = jwt.sign(req.body, 'tesyuseyeyseyuwu', { expiresIn: '24hr' });
-//   req.token = token;
-//   next();
-// }
 
 export const checkIfUserNotExist =(req,res,next) => {
   const user = User.getUserByEmail(req.body.email);
@@ -63,7 +58,7 @@ export const getUserById = (req,res,next) => {
 next();
 }
 export const validation = (req, res, next)=> {
-    // validate matches
+    
     if(!req.body.firstName.match(/^[a-zA-Z]{3,30}$/)) return res.status(400).send({error:400, message:'firstName is invalid'})
     if(!req.body.lastName.match(/^[a-zA-Z]{3,30}$/)) return res.status(400).send({error:400, message:'lastName is invalid'})
     if(!req.body.password.match(/^[a-zA-Z0-9]{6,30}$/)) return res.status(400).send({error:400, message:'password is invalid'})
