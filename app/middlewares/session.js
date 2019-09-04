@@ -1,6 +1,6 @@
 import { sessions}from '../data/sessionData';
-const appSecretkey = 'tesyuseyeyseyuwu'
- import jwt from 'jsonwebtoken';
+import { users } from '../data/userData'
+
 
 export const getSessionById = (req,res,next) => {
     const session = sessions.find(session => session.sessionId === parseInt(req.params.id))
@@ -9,3 +9,10 @@ export const getSessionById = (req,res,next) => {
   next();
   }
  
+  export const questionExist = (req,res,next) => {
+    const session = sessions.find(session => session.questions === req.body.questions)
+      // const mentor = users.find(user => user.id === session.mentorId)
+      if(session ) return res.status(409).send({error:409,message:'question already answered'});
+    next();
+  }
+  

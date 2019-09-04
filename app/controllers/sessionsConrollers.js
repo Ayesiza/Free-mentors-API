@@ -7,11 +7,12 @@ export class SessionController {
     const sessionId = sessions.length + 1;
     const { id, email } = req.user
     const newSession = new Session(sessionId, mentorId, questions, id, email)
-    const session = newSession.createSession();
-    return res.status(200).send({ status: 200, session });
+    const data = newSession.createSession();
+    return res.status(200).send({ status: 200, data });
   }
 
   static acceptMentorshipSession(req, res) {
+    if(req.session.status==='accepted') return res.status(409).send({status:409, message:'Session Already Accepted'})
     const session = Session.acceptMentorshipSession(req.session)
     return res.send({ status: 200, session })
   }
@@ -19,8 +20,7 @@ export class SessionController {
 
   static rejectSession(req, res) {
     const session = Session.rejectSession(req.session)
-    return res.send({ status: 200, session })
-
+    return res.send({ status: 200, session, message:'Your session NOT accepted.All Sessions are booked at the moment' })
   }
 }
 

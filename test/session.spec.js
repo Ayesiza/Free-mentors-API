@@ -37,7 +37,7 @@ describe('Tests session routes', () => {
                 done();
             });
     });
-    it('reject mentorship session for mentor', (done) => {
+    it('reject mentorship session for  only mentor', (done) => {
         request(app)
             .patch('/api/v1/sessions/1/reject')
             .set('Authorization', `Bearer ${token}`)
@@ -72,6 +72,16 @@ describe('Tests mentoship  sessions routes', () => {
                 done();
             });
     });
+    it('Not accept session already accepted', (done) => {
+        request(app)
+            .patch('/api/v1/sessions/2/accept')
+            .set('Authorization', `Bearer ${token}`)
+            .end((err, res) => {
+                res.status.should.equal(409);
+                res.body.message.should.equal('Session Already Accepted');
+                done();
+            });
+    });
     it('accept mentorship session', (done) => {
         request(app)
             .patch('/api/v1/sessions/9/accept')
@@ -81,6 +91,7 @@ describe('Tests mentoship  sessions routes', () => {
                 done();
             });
     });
+    
     it('reject mentorship session', (done) => {
         request(app)
             .patch('/api/v1/sessions/1/reject')
