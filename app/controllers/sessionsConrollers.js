@@ -24,7 +24,18 @@ export class SessionController {
     return res.send({ status: 200, session})
   }
 
-
+  static reviewSession(req ,res){
+    let sessionReview = {
+        sessionId: parseInt(req.params.id),
+        mentorId: req.session.mentorId,
+        menteeId: req.user.id,
+        score: req.body.score,
+        menteeFullName: `${req.user.firstName} ${req.user.lastName}` ,
+        remark: req.body.remark,
+    }
+    sessionReviews.push(sessionReview)
+    res.status(201).send({status:201,data:sessionReview})
+  }
 }
 
 export default SessionController;
