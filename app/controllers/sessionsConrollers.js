@@ -20,7 +20,7 @@ export class SessionController {
 
   static rejectSession(req, res) {
     const session = Session.rejectSession(req.session)
-    return res.send({ status: 200, session, message:'Your session NOT accepted.All Sessions are booked at the moment' })
+    return res.send({ status: 200, session})
   }
 }
 
