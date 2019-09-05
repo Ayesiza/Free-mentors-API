@@ -1,13 +1,18 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/users';
 import  { users } from '../data/userData'
+import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export class UserController{
 static signUpUser (req,res){
   const {firstName, lastName, email, password, address, bio, occupation, expertise, admin, mentor} = req.body;
+  const hashPassword = bcrypt.hashSync(password, 10);
   const id = users.length + 1;
-  const user = new User(id,firstName,lastName,email,password,address, bio, occupation, expertise,admin, mentor)
-  const token = jwt.sign({user}, 'tesyuseyeyseyuwu', { expiresIn: '24hr' });
+  const user = new User(id,firstName,lastName,email,hashPassword,address, bio, occupation, expertise,admin, mentor)
+  const token = jwt.sign({user}, process.env.appSecretkey, { expiresIn: '24hr' });
   user.signUpUser()
    return res.status(201).send({status:201, token, message:'User created successfully'});
 };

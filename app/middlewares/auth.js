@@ -1,8 +1,11 @@
 import { users }from '../data/userData';
 import User from '../models/users';
 import { sessions }from '../data/sessionData';
-const appSecretkey = 'tesyuseyeyseyuwu'
+import dotenv from 'dotenv';
  import jwt from 'jsonwebtoken';
+ import bcrypt from 'bcrypt';
+
+ dotenv.config();
 
  export function getToken(req, res, next) {
     const bearerHeader = req.headers.authorization;
@@ -14,7 +17,7 @@ const appSecretkey = 'tesyuseyeyseyuwu'
   }
 
   export const verifyUserToken =(req, res, next) =>{
-    jwt.verify(req.token, appSecretkey, (err, user) => {
+    jwt.verify(req.token, process.env.appSecretkey, (err, user) => {
      if (err) return res.status(403).json({ error: 403, message: err.message });
      req.user = user
      next();
@@ -40,8 +43,10 @@ export const checkIfUserExist = (req, res,next) => {
 export const checkIfUserNotExist =(req,res,next) => {
   const user = User.getUserByEmail(req.body.email);
   if(!user)return res.status(404).send({message:'user not found'});
-  if(user.password !== req.body.password) return res.status(400).send({message:'wrong email or password'})
-  req.token = jwt.sign(user, 'tesyuseyeyseyuwu', { expiresIn: '24hr' });
+  const hashedpassword = bcrypt.compareSync(req.body.password, user.password)
+  const {password, ...noA } = user;
+  if(!hashedpassword) return res.status(400).send({message:'wrong email or password'})
+  req.token = jwt.sign(noA, process.env.appSecretkey, { expiresIn: '24hr' });
   next();
 }
 
