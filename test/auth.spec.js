@@ -17,7 +17,7 @@ describe('auth routes', () => {
                 firstName: 'kelvin',
                 lastName: 'bawer',
                 email: 'kelvin@gmail.com',
-                password: 'kelvin5555',
+                password: 'kampala22',
                 address: 'lagos',
                 bio: 'born in November 4, 1989',
                 occupation: 'unversity student',
@@ -38,7 +38,7 @@ describe('auth routes', () => {
                 firstName: 'jane',
                 lastName: 'joe',
                 email: 'jane@gmail.com',
-                password: 'jane5555',
+                password: 'kampala22',
                 address: 'wakiso',
                 bio: 'born in November 4, 1989',
                 occupation: 'unversity student',
@@ -69,70 +69,7 @@ describe('auth routes', () => {
             })
             .end((err, res) => {
                 res.status.should.equal(400);
-                res.body.message.should.equal('firstName is invalid');
-                done();
-            });
-    });
-    it('invalid inputs lastName', (done) => {
-        request(app)
-            .post('/api/v1/users/auth/signup')
-            .send({
-                firstName: 'jane',
-                lastName: 'jo-e',
-                email: 'jane@gmail.com',
-                password: 'jane5555',
-                address: 'wakiso',
-                bio: 'born in November 4, 1989',
-                occupation: 'unversity student',
-                expertise: 'student of law',
-                admin: false,
-                mentor: false
-            })
-            .end((err, res) => {
-                res.status.should.equal(400);
-                res.body.message.should.equal('lastName is invalid');
-                done();
-            });
-    });
-    it('invalid inputs email', (done) => {
-        request(app)
-            .post('/api/v1/users/auth/signup')
-            .send({
-                firstName: 'jane',
-                lastName: 'joe',
-                email: 'janegmailcom',
-                password: 'jane5555',
-                address: 'wakiso',
-                bio: 'born in November 4, 1989',
-                occupation: 'unversity student',
-                expertise: 'student of law',
-                admin: false,
-                mentor: false
-            })
-            .end((err, res) => {
-                res.status.should.equal(400);
-                res.body.message.should.equal('email is invalid');
-                done();
-            });
-    });
-    it('invalid inputs password', (done) => {
-        request(app)
-            .post('/api/v1/users/auth/signup')
-            .send({
-                firstName: 'jane',
-                lastName: 'joe',
-                email: 'jane@gmail.com',
-                password: 'jane',
-                address: 'wakiso',
-                bio: 'born in November 4, 1989',
-                occupation: 'unversity student',
-                expertise: 'student of law',
-                admin: false,
-                mentor: false
-            })
-            .end((err, res) => {
-                res.status.should.equal(400);
-                res.body.message.should.equal('password is invalid');
+                res.body.message.should.equal("firstName field is invalid");
                 done();
             });
     });
@@ -142,7 +79,7 @@ describe('auth routes', () => {
             .post('/api/v1/users/auth/signin')
             .send({
                 "email": "jane@gmail.com",
-                "password": "jane5555"
+                "password": "kampala22"
             })
             .end((err, res) => {
                 res.status.should.equal(200);
@@ -155,7 +92,7 @@ describe('auth routes', () => {
             .post('/api/v1/users/auth/signin')
             .send({
                 "email": "keneth@gmail.com",
-                "password": "keneth5555"
+                "password": "kampala22"
             })
             .end((err, res) => {
                 res.status.should.equal(404);

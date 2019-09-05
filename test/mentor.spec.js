@@ -16,7 +16,7 @@ describe('Tests usermentor routes', () => {
             .post('/api/v1/users/auth/signin')
             .send({
                 email: 'sherifa@gmail.com',
-                password: 'mogansherif2020'
+                password: 'kampala22'
             })
             .end((err, res) => {
                 adminToken = res.body.token;
@@ -95,7 +95,7 @@ describe('Tests all usermentor routes', () => {
             .post('/api/v1/users/auth/signin')
             .send({
                 email: 'betty@gmail.com',
-                password: 'bettykimuli20'
+                password: 'kampala22'
             })
             .end((err, res) => {
                 userToken = res.body.token;
@@ -113,6 +113,7 @@ describe('Tests all usermentor routes', () => {
                 done();
             });
     });
+   
 
     it('tests allMentors get token', (done) => {
         request(app)
@@ -143,7 +144,7 @@ describe('Tests all specific mentor routes', () => {
             .post('/api/v1/users/auth/signin')
             .send({
                 email: 'betty@gmail.com',
-                password: 'bettykimuli20'
+                password: 'kampala22'
             })
             .end((err, res) => {
                 userToken = res.body.token;
@@ -180,5 +181,13 @@ describe('Tests all specific mentor routes', () => {
                 done();
             });
     });
-  
+it('specficMentor not a mentor', (done) => {
+        request(app)
+            .get('/api/v1/mentor/2')
+            .set('Authorization', `Bearer ${userToken}`)
+            .end((err, res) => {
+                res.body.message.should.equal('Selected User is  not a mentor');
+                done();
+            });
+    });
 });

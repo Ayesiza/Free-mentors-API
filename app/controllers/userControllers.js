@@ -1,20 +1,26 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/users';
 import  { users } from '../data/userData'
-import bcrypt from 'bcrypt';
+
 import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
+
+
+
 
 dotenv.config();
 
 export class UserController{
 static signUpUser (req,res){
-  const {firstName, lastName, email, password, address, bio, occupation, expertise, admin, mentor} = req.body;
-  const hashPassword = bcrypt.hashSync(password, 10);
+
+  const {firstName, lastName, email, address, bio, occupation, expertise, admin, mentor} = req.body;
   const id = users.length + 1;
+  const hashPassword = bcrypt.hashSync(req.body.password, 10);
   const user = new User(id,firstName,lastName,email,hashPassword,address, bio, occupation, expertise,admin, mentor)
-  const token = jwt.sign({user}, process.env.appSecretkey, { expiresIn: '24hr' });
+  const token = jwt.sign({id,email,admin, mentor}, process.env.appSecretKey, { expiresIn: '240hr' });
+
   user.signUpUser()
-   return res.status(201).send({status:201, token, message:'User created successfully'});
+   return res.status(201).send({status:201,token, message:'User created successfully'});
 };
 
 static signInUser(req,res){
@@ -22,12 +28,12 @@ static signInUser(req,res){
 }
 
  static getAllMentors(req,res){
-   const mentors = User.getAllMentors() 
-  return res.send({status:200, mentors})  
+   const data = User.getAllMentors() 
+  return res.send({status:200, data})  
 
    }
-  
   static specificMentor(req,res){ 
+    if( req.user.mentor === false) return res.send({status:404, message:'Selected User is  not a mentor'})
     return res.send({status:200, user:req.user})
     
   }

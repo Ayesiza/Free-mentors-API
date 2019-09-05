@@ -1,19 +1,19 @@
 import express from 'express'
 import user from '../controllers/userControllers'
-import { getToken,validation, verifyUserToken, getUserById, checkParamsInPut, userAdmin, userMentor, checkIfUserExist, checkIfUserNotExist} from '../middlewares/auth'
+import auth from '../middlewares/auth'
 import session  from '../controllers/sessionsConrollers'
-import { getSessionById } from '../middlewares/session'
+import { getSessionById,questionExist,notReviewOwn,notReviewAgain } from '../middlewares/session'
 
 const router = express.Router()
 
-router.post('/users/auth/signup', validation, checkIfUserExist, user.signUpUser);
-router.post('/users/auth/signin', checkIfUserNotExist, user.signInUser);
-router.patch('/user/:id',  getToken, verifyUserToken,checkParamsInPut, userAdmin, getUserById, user.changeUserToMentor);
-router.get('/mentors', getToken, user.getAllMentors);
-router.get('/mentor/:id', getToken,checkParamsInPut,getUserById, user.specificMentor);
-router.post('/sessions',getToken, verifyUserToken, session.createSession);
-router.patch('/sessions/:id/accept', getToken, verifyUserToken, userMentor,getSessionById, session.acceptMentorshipSession);
-router.patch('/sessions/:id/reject', getToken, verifyUserToken, userMentor,getSessionById, session.rejectSession);
-
+router.post('/users/auth/signup', auth.validation, auth.checkIfUserExist, user.signUpUser);
+router.post('/users/auth/signin', auth.checkIfUserNotExist, user.signInUser);
+router.patch('/user/:id',  auth.getToken, auth.verifyUserToken,auth.checkParamsInPut, auth.userAdmin, auth.getUserById, user.changeUserToMentor);
+router.get('/mentors', auth.getToken, user.getAllMentors);
+router.get('/mentor/:id', auth.getToken, auth.checkParamsInPut,auth.getUserById, user.specificMentor);
+router.post('/sessions',auth.getToken, auth.verifyUserToken,questionExist, session.createSession);
+router.patch('/sessions/:id/accept', auth.getToken, auth.verifyUserToken, auth.userMentor, getSessionById,auth.sessOwner, session.acceptMentorshipSession);
+router.patch('/sessions/:id/reject', auth.getToken, auth.verifyUserToken, auth.userMentor,getSessionById, session.rejectSession);
+router.post('/sessions/:id/review',auth.getToken, auth.verifyUserToken, getSessionById,notReviewOwn,notReviewAgain, session.reviewSession )
 
 export default router;
