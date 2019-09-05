@@ -16,7 +16,7 @@ describe('Tests usermentor routes', () => {
             .post('/api/v1/users/auth/signin')
             .send({
                 email: 'sherifa@gmail.com',
-                password: 'mogansherif2020'
+                password: 'kampala22'
             })
             .end((err, res) => {
                 adminToken = res.body.token;
@@ -95,7 +95,7 @@ describe('Tests all usermentor routes', () => {
             .post('/api/v1/users/auth/signin')
             .send({
                 email: 'betty@gmail.com',
-                password: 'bettykimuli20'
+                password: 'kampala22'
             })
             .end((err, res) => {
                 userToken = res.body.token;
@@ -144,7 +144,7 @@ describe('Tests all specific mentor routes', () => {
             .post('/api/v1/users/auth/signin')
             .send({
                 email: 'betty@gmail.com',
-                password: 'bettykimuli20'
+                password: 'kampala22'
             })
             .end((err, res) => {
                 userToken = res.body.token;

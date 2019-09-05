@@ -16,7 +16,7 @@ describe('Tests session routes', () => {
             .post('/api/v1/users/auth/signin')
             .send({
                 email: 'sherifa@gmail.com',
-                password: 'mogansherif2020'
+                password: 'kampala22'
             })
             .end((err, res) => {
                 token = res.body.token;
@@ -56,7 +56,7 @@ describe('Tests mentoship  sessions routes', () => {
             .post('/api/v1/users/auth/signin')
             .send({
                 email: 'martin@gmail.com',
-                password: 'kimmartin30'
+                password: 'kampala22'
             })
             .end((err, res) => {
                 token = res.body.token;
