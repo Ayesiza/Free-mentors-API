@@ -27,13 +27,19 @@ static signInUser(req,res){
 }
 
  static getAllMentors(req,res){
-   const data = User.getAllMentors() 
+   const mentors = User.getAllMentors()
+   let data = [];
+   for (let mentor = 0; mentor < mentors.length; mentor++) {
+    const {password, ...noA } = mentors[mentor];
+     data.push(noA)
+   }
   return res.send({status:200, data})  
 
    }
   static specificMentor(req,res){ 
     if( req.user.mentor === false) return res.send({status:404, message:'Selected User is  not a mentor'})
-    return res.send({status:200, user:req.user})
+    const {password, ...noA } = req.user;
+    return res.send({status:200, user:noA})
     
   }
         
