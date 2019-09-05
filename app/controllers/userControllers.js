@@ -18,7 +18,6 @@ static signUpUser (req,res){
   const hashPassword = bcrypt.hashSync(req.body.password, 10);
   const user = new User(id,firstName,lastName,email,hashPassword,address, bio, occupation, expertise,admin, mentor)
   const token = jwt.sign({id,email,admin, mentor}, process.env.appSecretKey, { expiresIn: '240hr' });
-
   user.signUpUser()
    return res.status(201).send({status:201,token, message:'User created successfully'});
 };

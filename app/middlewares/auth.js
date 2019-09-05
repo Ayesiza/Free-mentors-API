@@ -1,10 +1,8 @@
 import User from '../models/users';
-
  import jwt from 'jsonwebtoken';
  import dotenv from 'dotenv';
  import bcrypt from 'bcrypt';
  import Joi from '@hapi/joi';
-
 
 dotenv.config();
 class Auth {
@@ -17,10 +15,13 @@ class Auth {
     next();
   }
 
-
   static verifyUserToken(req, res, next){
     jwt.verify(req.token, process.env.appSecretkey,(err, user) => {
-
+     if (err) return res.status(403).json({ error: 403, message: err.message });
+     req.user = user
+     next();
+    })
+   }
 
    static userAdmin(req, res, next){
     !req.user.admin ? res.status(403).send({error:403,message:'for only admin'}) : next()
@@ -51,10 +52,9 @@ static checkIfUserNotExist(req,res,next){
   const hashedpassword = bcrypt.compareSync(req.body.password, user.password)
   const {password, ...noA } = user;
   if(!hashedpassword) return res.status(400).send({message:'wrong email or password'})
-
   req.token = jwt.sign(noA, process.env.appSecretkey, { expiresIn: '240hr' });
-
-
+  next();
+}
 
 static checkParamsInPut(req, res, next){
   const checkInput = req.params.id.match(/^[0-9]+$/);
