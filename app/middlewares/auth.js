@@ -1,7 +1,8 @@
 import User from '../models/users';
  import jwt from 'jsonwebtoken';
  import dotenv from 'dotenv';
- import bcrypt from 'bcrypt';
+ import bcrypt from 'bcryptjs';
+ import Joi from '@hapi/joi';
 
 dotenv.config();
 
@@ -38,15 +39,18 @@ export const sessOwner = (req, res, next)=> {
 }
 
 export const checkIfUserExist = (req, res,next) => {
-  const finduser = User.getUserByEmail(req.body.email);
+  const { email } = req.body;
+  const finduser = User.getUserByEmail(email);
   if(finduser) return res.status(409).send({status:409, message:'user already exist'})
   next();
 }
 
+
 export const checkIfUserNotExist = (req,res,next) => {
-  const user = User.getUserByEmail(req.body.email);
+  const { email, password } = req.body;
+  const user = User.getUserByEmail(email);
   if(!user)return res.status(404).send({message:'user not found'});
-  if(!bcrypt.compareSync(req.body.password,user.password)) return res.status(400).send({message:'wrong email or password'})  
+  if(!bcrypt.compareSync(password,user.password)) return res.status(400).send({message:'wrong email or password'})  
   req.token = jwt.sign({user}, process.env.appSecretkey, { expiresIn: '24hr' });
   next();
 }
@@ -64,15 +68,32 @@ export const getUserById = (req,res,next) => {
   req.user = user
 next();
 }
-export const validation = (req, res, next)=> {
-    
-    if(!req.body.firstName.trim().match(/^[a-zA-Z]{3,30}$/)) return res.status(400).send({error:400, message:'firstName is invalid'})
-    if(!req.body.lastName.trim().match(/^[a-zA-Z]{3,30}$/)) return res.status(400).send({error:400, message:'lastName is invalid'})
-    if(!req.body.password.trim().match(/^[a-zA-Z0-9]{6,30}$/)) return res.status(400).send({error:400, message:'password is invalid'})
-    if(!req.body.email.trim().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) return res.status(400).send({error:400, message:'email is invalid'})
-   
-    next()
-}
 
+
+export const validation=(req, res, next) =>{
+
+  const authSchema = Joi.object().keys({
+    firstName: Joi.string().min(3).regex(/^[a-zA-Z]+$/).required(),
+    lastName: Joi.string().min(3).regex(/^[a-zA-Z]+$/).required(),
+    email: Joi.string().email({ minDomainSegments: 2 }).required(),
+    password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+    address: Joi.string().min(3).regex(/^[a-zA-Z0-9]+$/).required(),
+    bio: Joi.required(),
+    occupation: Joi.required(),
+    expertise: Joi.required(),
+    admin: Joi.required(),
+    mentor: Joi.required(),
+   
+  });
+  const data = Joi.validate(req.body, authSchema);
+  if (typeof req.body.admin !== 'boolean') return res.status(400).send({ status: 400, error: 'isAdmin should be a boolean' });
+  if (typeof req.body.mentor !== 'boolean') return res.status(400).send({ status: 400, error: 'mentor should be a boolean' });
+  if (data.error) {
+    const resFomart = data.error.details[0].message.replace('"', '').split('"');
+    const gotElem = resFomart[0];
+    return res.status(400).send({ status: 400, error: `${gotElem} field is invalid` });
+  }
+  next();
+}
 
     

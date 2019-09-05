@@ -69,7 +69,7 @@ describe('auth routes', () => {
             })
             .end((err, res) => {
                 res.status.should.equal(400);
-                res.body.message.should.equal('firstName is invalid');
+                res.body.message.should.equal('firstName field is invalid');
                 done();
             });
     });

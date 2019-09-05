@@ -2,7 +2,8 @@ import jwt from 'jsonwebtoken';
 import User from '../models/users';
 import  { users } from '../data/userData'
 import dotenv from 'dotenv';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
+import 'regenerator-runtime'
 
 dotenv.config();
 
@@ -10,12 +11,13 @@ export class UserController{
 static async signUpUser (req,res){
   const {firstName, lastName, email, password, address, bio, occupation, expertise, admin, mentor} = req.body;
   const id = users.length + 1;
-  const salt =await bcrypt.genSalt(10);
+  const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password,salt);
   const user = new User(id,firstName,lastName,email,hashedPassword,address, bio, occupation, expertise,admin, mentor)
+console.log(user)
   const token = jwt.sign({user}, process.env.appSecretKey, { expiresIn: '24hr' });
   user.signUpUser()
-   return res.status(201).send({status:201, users,token, message:'User created successfully'});
+   return res.status(201).send({status:201,token, message:'User created successfully'});
 };
 
 static signInUser(req,res){
