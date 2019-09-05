@@ -1,4 +1,4 @@
-// pass = kampala22
+
 export const users = [
     {   id:1, 
         firstName:'jane', 

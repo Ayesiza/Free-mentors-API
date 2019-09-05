@@ -37,6 +37,21 @@ describe('Tests session routes', () => {
                 done();
             });
     });
+    it('create Mentorship session', (done) => {
+        request(app)
+            .post('/api/v1/sessions')
+            .set('Authorization', `Bearer ${token}`)
+            .set('Accept', 'application/json')
+            .send({
+                mentorId: 40,
+                questions: 'Which leadership skills were the most difficult to develop?'
+            })
+            .end((err, res) => {
+                res.status.should.equal(409);
+                res.body.message.should.equal('question already answered');
+                done();
+            });
+    });
     it('reject mentorship session for  only mentor', (done) => {
         request(app)
             .patch('/api/v1/sessions/1/reject')
@@ -82,6 +97,7 @@ describe('Tests mentoship  sessions routes', () => {
                 done();
             });
     });
+    
     it('accept mentorship session', (done) => {
         request(app)
             .patch('/api/v1/sessions/9/accept')
@@ -91,7 +107,16 @@ describe('Tests mentoship  sessions routes', () => {
                 done();
             });
     });
-    
+    it('session request not for mentor', (done) => {
+        request(app)
+            .patch('/api/v1/sessions/3/accept')
+            .set('Authorization', `Bearer ${token}`)
+            .end((err, res) => {
+                res.status.should.equal(403);
+                res.body.message.should.equal('not your session request');
+                done();
+            });
+    });
     it('reject mentorship session', (done) => {
         request(app)
             .patch('/api/v1/sessions/1/reject')

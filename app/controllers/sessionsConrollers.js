@@ -1,5 +1,6 @@
 import Session from '../models/sessions';
-import { sessions } from '../data/sessionData'
+import { sessions } from '../data/sessionData';
+import { sessionReviews } from '../data/sessionReviews';
 
 export class SessionController {
   static createSession(req, res) {
@@ -7,8 +8,8 @@ export class SessionController {
     const sessionId = sessions.length + 1;
     const { id, email } = req.user
     const newSession = new Session(sessionId, mentorId, questions, id, email)
-    const data = newSession.createSession();
-    return res.status(200).send({ status: 200, data });
+    const sessions = newSession.createSession();
+    return res.status(200).send({ status: 200, data:sessions });
   }
 
   static acceptMentorshipSession(req, res) {
@@ -22,6 +23,8 @@ export class SessionController {
     const session = Session.rejectSession(req.session)
     return res.send({ status: 200, session})
   }
+
+
 }
 
 export default SessionController;

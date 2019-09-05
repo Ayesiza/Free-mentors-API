@@ -5,8 +5,8 @@ import User from '../models/users';
  import Joi from '@hapi/joi';
 
 dotenv.config();
-
- export function getToken(req, res, next) {
+class Auth {
+  static getToken(req, res, next) {
     const bearerHeader = req.headers.authorization;
     if (typeof bearerHeader === 'undefined') return res.status(403).send({ error: 403, message: 'provide a token' });
     const bearer = bearerHeader.split(' ');
@@ -15,7 +15,7 @@ dotenv.config();
     next();
   }
 
-  export const verifyUserToken =(req, res, next) =>{
+  static verifyUserToken(req, res, next){
     jwt.verify(req.token, process.env.appSecretkey,(err, user) => {
      if (err) return res.status(403).json({ error: 403, message: err.message });
      req.user = user
@@ -23,22 +23,22 @@ dotenv.config();
     })
    }
 
-   export const userAdmin = (req, res, next)=> {
+   static userAdmin(req, res, next){
     !req.user.admin ? res.status(403).send({error:403,message:'for only admin'}) : next()
   }
 
-export const userMentor = (req, res, next)=> {
+static userMentor(req, res, next){
   if( req.user.mentor === false) return res.status(403).send({error:403,message:'for only mentor'});
   next();
 }
 
 
-export const sessOwner = (req, res, next)=> {
+static sessOwner(req, res, next){
   if (req.session.mentorId !== req.user.id) return res.status(403).send({error:403,message:'not your session request'});
   next();
 }
 
-export const checkIfUserExist = (req, res,next) => {
+static checkIfUserExist(req, res,next){
   const { email } = req.body;
   const finduser = User.getUserByEmail(email);
   if(finduser) return res.status(409).send({status:409, message:'user already exist'})
@@ -46,23 +46,23 @@ export const checkIfUserExist = (req, res,next) => {
 }
 
 
-export const checkIfUserNotExist =(req,res,next) => {
+static checkIfUserNotExist(req,res,next){
   const user = User.getUserByEmail(req.body.email);
   if(!user)return res.status(404).send({message:'user not found'});
   const hashedpassword = bcrypt.compareSync(req.body.password, user.password)
   const {password, ...noA } = user;
   if(!hashedpassword) return res.status(400).send({message:'wrong email or password'})
-  req.token = jwt.sign(noA, process.env.appSecretkey, { expiresIn: '24hr' });
+  req.token = jwt.sign(noA, process.env.appSecretkey, { expiresIn: '240hr' });
   next();
 }
 
-export const checkParamsInPut = (req, res, next) => {
+static checkParamsInPut(req, res, next){
   const checkInput = req.params.id.match(/^[0-9]+$/);
   if(!checkInput) return res.status(400).send({error:400, message:'parameter should be a valid number'})
   next();
 }
 
-export const getUserById = (req,res,next) => {
+static getUserById(req,res,next){
   const user = User.getUserById(req.params.id)
   if(!user) return res.status(404).send({status:404, message:'user of the given Id not found'})
   req.user = user
@@ -70,7 +70,7 @@ next();
 }
 
 
-export const validation=(req, res, next) =>{
+static validation(req, res, next){
 
   const authSchema = Joi.object().keys({
     firstName: Joi.string().min(3).regex(/^[a-zA-Z]+$/).required(),
@@ -86,8 +86,7 @@ export const validation=(req, res, next) =>{
    
   });
   const data = Joi.validate(req.body, authSchema);
-  if (typeof req.body.admin !== 'boolean') return res.status(400).send({ status: 400, error: 'isAdmin should be a boolean' });
-  if (typeof req.body.mentor !== 'boolean') return res.status(400).send({ status: 400, error: 'mentor should be a boolean' });
+  
   if (data.error) {
     const resFomart = data.error.details[0].message.replace('"', '').split('"');
     const gotElem = resFomart[0];
@@ -95,5 +94,7 @@ export const validation=(req, res, next) =>{
   }
   next();
 }
+}
 
     
+export default Auth;
