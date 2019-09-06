@@ -136,3 +136,78 @@ describe('Tests mentoship  sessions routes', () => {
             });
     });
 });
+
+describe('Tests Review session routes', () => {
+    let token = '';
+    before((done) => {
+        request(app)
+            .post('/api/v1/users/auth/signin')
+            .send({
+                email: 'sherifa@gmail.com',
+                password: 'kampala22'
+            })
+            .end((err, res) => {
+                token = res.body.token;
+                done();
+            });
+    });
+    it('Review mentor', (done) => {
+        request(app)
+            .post('/api/v1/sessions/2/review')
+            .set('Authorization', `Bearer ${token}`)
+            .set('Accept', 'application/json')
+            .send({
+                score: 5,
+                remark: 'very good'
+            })
+            .end((err, res) => {
+                res.status.should.equal(201);
+                done();
+            });
+    });
+    it('Review session you cannot review yourself', (done) => {
+        request(app)
+            .post('/api/v1/sessions/1/review')
+            .set('Authorization', `Bearer ${token}`)
+            .set('Accept', 'application/json')
+            .send({
+                score: 5,
+               remark: 'very good'
+            })
+            .end((err, res) => {
+                res.status.should.equal(400);
+                res.body.message.should.equal('you can not review yourself');
+                done();
+            });
+    });
+    it('Review session you cannot review your own session', (done) => {
+        request(app)
+            .post('/api/v1/sessions/3/review')
+            .set('Authorization', `Bearer ${token}`)
+            .set('Accept', 'application/json')
+            .send({
+                score: 5,
+               remark: 'very good'
+            })
+            .end((err, res) => {
+                res.status.should.equal(400);
+                res.body.message.should.equal('you canot review some ones session');
+                done();
+            });
+    });
+    it('Review session not review session again', (done) => {
+        request(app)
+            .post('/api/v1/sessions/2/review')
+            .set('Authorization', `Bearer ${token}`)
+            .set('Accept', 'application/json')
+            .send({
+                score: 5,
+               remark: 'very good'
+            })
+            .end((err, res) => {
+                res.status.should.equal(409);
+                res.body.message.should.equal('you can not review again');
+                done();
+            });
+    });
+});
