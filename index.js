@@ -18,6 +18,7 @@ app.use('/api/v1/', apiRouters)
 app.use('/docs', swagger.serve, swagger.setup(swaggerDoc));
 
 
+
 app.all('/*', (req, res) => {
   res.status(404).json({
     status: 404,

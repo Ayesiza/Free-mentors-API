@@ -1,473 +1,459 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "description": "Free Mentors is a social initiative where accomplished professionals become role models to young people to provide free mentorship sessions",
-        "version": "1",
-        "title": "Free Mentors",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "email": "yesiha2001@gmail.com"
-        },
-        "license": {
-            "name": "Free-Mentors Licence",
-            "url": "https://github.com/Ayesiza/Free-mentors-API/blob/develop/LICENSE"
-        }
-    },
-    "host": "127.0.0.1:3000",
-    "basePath": "/api/v1",
-    "tags": [
-        {
-            "name": "Auth",
-            "description": "User sign up & Log in and Change a user to a mentor",
-            "externalDocs": {
-                "description": "Find out more",
-                "url": "https://github.com/Ayesiza/Free-mentors-API"
-            }
-        },
-        {
-            "name": "Mentor",
-            "description": "View all mentors, View specific mentor"
-        },
-        {
-            "name": "Session",
-            "description": "Create, Accept and Reject session",
-            "externalDocs": {
-                "description": "Find out more",
-                "url": "https://github.com/Ayesiza/Free-mentors-API"
-            }
-        }
-    ],
-    "schemes": [
-        "http"
-    ],
-    "paths": {
-     "/auth/signup": {
-      "post": {
-       "tags": [
-        "Auth"
-       ],
-       "summary": "Create user account",
-       "description": "",
-       "operationId": "signup",
-       "consumes": [
-        "application/json",
-        "application/xml"
-       ],
-       "produces": [
-        "application/xml",
-        "application/json"
-       ],
-       "parameters": [
-        {
-         "in": "body",
-         "name": "body",
-         "description": "User object required to create new account",
-         "required": true,
-         "schema": {
-          "$ref": "#/definitions/signup"
+   "swagger": "2.0",
+   "info": {
+      "description": "Free Mentors is a social initiative where accomplished professionals become role models to young people to provide free mentorship sessions.",
+      "version": "v1",
+      "title": "Free Mentors APIs docs",
+      "termsOfService": "http://swagger.io/terms/",
+      "contact": {
+         "email": "yesiha2001@gmail.com"
+      },
+      "license": {
+         "name": "Free-Mentors Licence",
+         "url": "https://github.com/Ayesiza/Free-mentors"
+      }
+   },
+   "host": "free-mentor-api.herokuapp.com",
+   "basePath": "/api/v1",
+   "tags": [
+      {
+         "name": "User",
+         "description": "Create account, Sign in  Change a user to mentor",
+         "externalDocs": {
+            "description": "Find out more",
+            "url": "https://github.com/Ayesiza/Free-mentors-API"
          }
-        }
-       ],
-       "responses": {
-        "201": {
-         "description": "Account Created Successfully"
-        },
-        "400": {
-         "description": "Bad Request - invalid inputs "
-          },
-        "409": {
-         "description": "User already exist"
-        },
-        "500": {
-           "description": "Server error"
-          }
-       }
-      }
-     },
-     "/auth/signin": {
-      "post": {
-       "tags": [
-        "Auth"
-       ],
-       "summary": "Login user",
-       "description": "",
-       "operationId": "signin",
-       "consumes": [
-        "application/json",
-        "application/xml"
-       ],
-       "produces": [
-        "application/xml",
-        "application/json"
-       ],
-       "parameters": [
-        {
-         "in": "body",
-         "name": "body",
-         "description": "Required for user to login",
-         "required": true,
-         "schema": {
-          "$ref": "#/definitions/signin"
+      },
+      {
+         "name": "Mentor",
+         "description": "Get all mentors & Get a specific mentor",
+         "externalDocs": {
+            "description": "Find out more",
+            "url": "https://github.com/Ayesiza/Free-mentors-API"
          }
-        }
-       ],
-       "responses": {
-           "200": {
-            "description": "Logged in in Successfully"
-           },
-           "400": {
-              "description": "Bad Request - invalid inputs "
-             },
-           "401": {
-            "description": "Incorrect credentials"
-           },
-           "500": {
-              "description": "Server error"
-             }
-          }
-      }
-     },
-     "/user/{userId}": {
-      "patch": {
-       "tags": [
-        "Auth"
-       ],
-       "summary": "Change a user to a mentor.",
-       "description": "",
-       "operationId": "change-user",
-       "produces": [
-        "application/xml",
-        "application/json"
-       ],
-       "parameters": [
-        {
-         "name": "x-auth-token",
-         "in": "header",
-         "type": "string",
-         "description": "The value to provide in the  header of API request"
-        },
-        {
-         "name": "userId",
-         "in": "path",
-         "description": "user id",
-         "required": true,
-         "type": "integer"
-        }
-       ],
-       "responses": {
-           "201": {
-            "description": "User was changed Successfully"
-           },
-           "400": {
-              "description": "Bad Request - invalid inputs "
-             },
-           "401": {
-                "description": "Access denied"
-               },             
-           "403": {
-               "description": "Not Admin cannot change a user"
-              },
-           "500": {
-              "description": "Server error"
-             }
-          }
-      }
-     },
-     "/mentors": {
-      "get": {
-       "tags": [
-        "Mentor"
-       ],
-       "summary": "Get all mentors",
-       "description": "User is able to fetch all available mentors",
-       "parameters": [
-        {
-         "name": "x-auth-token",
-         "in": "header",
-         "description": "The user token"
-        }
-       ],
-       "produces": [
-        "application/json"
-       ],
-       "responses": {
-           "200": {
-            "description": "All mentors are retrieved successfully"
-           },
-           "400": {
-              "description": "Bad Request - invalid inputs "
-             },
-           
-           "403": {
-               "description": "Not allowed to view mentors"
-              },
-           "404": {
-               "description": "Mentors not found"
-              },           
-           "500": {
-              "description": "Server error"
-             }
-          }
-      }
-     },
-     "/mentors/{mentorId}": {
-      "get": {
-       "tags": [
-        "Mentor"
-       ],
-       "summary": "Get a specific mentor",
-       "description": "",
-       "operationId": "get-specific-mentor",
-       "consumes": [
-        "application/json",
-        "application/xml"
-       ],
-       "produces": [
-        "application/xml",
-        "application/json"
-       ],
-       "parameters": [
-        {
-         "name": "x-auth-token",
-         "in": "header",
-         "type": "string",
-         "description": "The value to provide in the  header of API request"
-        },
-        {
-         "name": "mentorId",
-         "in": "path",
-         "description": "Mentor id",
-         "required": true,
-         "type": "integer"
-        }
-       ],
-       "responses": {
-           "200": {
-            "description": "Mentor retrieved Successfully"
-           },
-           "400": {
-              "description": "Bad Request - invalid inputs "
-             },
-           "404": {
-            "description": "Mentor not found"
-           },
-           "500": {
-              "description": "Server error"
-             }
-          }
-      }
-     },
-     "/sessions": {
-      "post": {
-       "tags": [
-        "Session"
-       ],
-       "summary": "Create a mentorship session request",
-       "description": "",
-       "operationId": "create-session",
-       "produces": [
-        "application/xml",
-        "application/json"
-       ],
-       "parameters": [
-        {
-         "name": "x-auth-token",
-         "in": "header",
-         "type": "string",
-         "description": "The value to provide in the  header of API request"
-        },
-        {
-         "name":"body",
-         "in":"body",
-         "schema":{
-            "$ref": "#/definitions/sessionRequest"             
+      },
+      {
+         "name": "Sessions",
+         "description": "Create, Accept & Reject Mentorship Session Request",
+         "externalDocs": {
+            "description": "Find out more",
+            "url": "https://github.com/Ayesiza/Free-mentors-API"
          }
-        }
-        ],
-       "responses": {
-           "201": {
-            "description": "Session request sent Successfully"
-           },
-           "400": {
-              "description": "Bad Request - invalid inputs "
-             },
-           "401": {
-               "description": "Unauthorized - No token provided "
-              },
-           "404": {
-               "description": "Mentor not found"
+      }
+   ],
+   "schemes": [
+      "http"
+   ],
+   "paths": {
+      "/users/auth/signup": {
+         "post": {
+            "tags": [
+               "User"
+            ],
+            "summary": "Create user account",
+            "description": "",
+            "operationId": "signup",
+            "consumes": [
+               "application/json",
+               "application/xml"
+            ],
+            "produces": [
+               "application/xml",
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "in": "body",
+                  "name": "body",
+                  "description": "User object that's needed to create new account",
+                  "required": true,
+                  "schema": {
+                     "$ref": "#/definitions/signup"
+                  }
+               }
+            ],
+            "responses": {
+               "201": {
+                  "description": "Account Created Successfully"
                },
-           "500": {
-              "description": "Server error"
-             }
-          }
-      }
-     },
-     "/sessions/{sessionId}/accept": {
-      "patch": {
-       "tags": [
-        "Session"
-       ],
-       "summary": "A mentor can accept a mentorship session request.",
-       "description": "",
-       "operationId": "accept-session",
-       "produces": [
-        "application/xml",
-        "application/json"
-       ],
-       "parameters": [
-        {
-         "name": "x-auth-token",
-         "in": "header",
-         "type": "string",
-         "description": "The value to provide in the  header of API request"
-        },
-        {
-            "name": "sessionId",
-            "in": "path",
-            "type": "string",
-            "description": "Session Id to accept"
-        }
-       ],
-       "responses": {
-           "200": {
-            "description": "Session request accepted"
-           },
-           "400": {
-              "description": "Bad Request - invalid inputs "
-             },
-           "401": {
-               "description": "Unauthorized -  No token provided"
-              },       
-           "403": {
-               "description": "Not allowed to accept this session"
-              },
-           "404": {
-               "description": "Session not found"
-              }, 
-           "500": {
-              "description": "Server error"
-             }
-          }
-      }
-     },
-     "/sessions/{sessionId}/reject": {
-        "patch": {
-         "tags": [
-          "Session"
-         ],
-         "summary": "A mentor can reject a mentorship session request.",
-         "description": "",
-         "operationId": "accept-session",
-         "produces": [
-          "application/xml",
-          "application/json"
-         ],
-         "parameters": [
-          {
-           "name": "x-auth-token",
-           "in": "header",
-           "type": "string",
-           "description": "The value to provide in the  header of API request"
-          },
-          {
-            "name": "sessionId",
-            "in": "path",
-            "type": "string",
-            "description": "Session Id to accept"
-          }
-         ],
-         "responses": {
-             "200": {
-              "description": "Session request rejected"
-             },
-             "400": {
-                "description": "Bad Request - invalid inputs "
+               "400": {
+                  "description": "Bad Request - invalid inputs "
                },
-             "401": {
-                 "description": "Unauthorized -  No token provided"
-                },       
-             "403": {
-                 "description": "Not allowed to reject this session"
-                },
-             "404": {
-                 "description": "Session not found"
-                }, 
-             "500": {
-                "description": "Server error"
+               "409": {
+                  "description": "User already exist"
+               },
+               "500": {
+                  "description": "Server error"
                }
             }
-        }
-       }     
-    },
-    "definitions": {
-     "signup": {
-      "type": "object",
-      "properties": {
-       "firstName": {
-        "type": "string"
-       },
-       "lastName": {
-        "type": "string"
-       },
-       "email": {
-        "type": "string"
-       },
-       "password": {
-        "type": "string"
-       },
-       "address": {
-        "type": "string"
-       },
-       "bio": {
-        "type": "string"
-       },
-       "occupation": {
-        "type": "string"
-       },
-       "expertise": {
-        "type": "string"
-       },
-       "admin": {
-        "type": "boolean"
-       },
-       "mentor": {
-        "type": "boolean"
-       } 
-       
+         }
       },
-      
-      "xml": {
-       "name": "User Signup"
-      }
-     },
-     "signin": {
-      "type": "object",
-      "properties": {
-       "email": {
-        "type": "string"
-       },
-       "password": {
-        "type": "string"
-       }
+      "/users/auth/signin": {
+         "post": {
+            "tags": [
+               "User"
+            ],
+            "summary": "signin user",
+            "description": "",
+            "operationId": "signin",
+            "consumes": [
+               "application/json",
+               "application/xml"
+            ],
+            "produces": [
+               "application/xml",
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "in": "body",
+                  "name": "body",
+                  "description": "User objects required to create new account",
+                  "required": true,
+                  "schema": {
+                     "$ref": "#/definitions/signin"
+                  }
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": " User Logged in Successfully"
+               },
+               "400": {
+                  "description": "Bad Request - invalid inputs "
+               },
+               "401": {
+                  "description": "Un Authorised"
+               },
+               "500": {
+                  "description": "Server error"
+               }
+            }
+         }
       },
-      "xml": {
-       "name": "User Signin"
+      "/user/{userId}": {
+         "patch": {
+            "tags": [
+               "User"
+            ],
+            "summary": "Change a user to a mentor.",
+            "description": "",
+            "operationId": "change-user",
+            "produces": [
+               "application/xml",
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "name": "x-auth-token",
+                  "in": "header",
+                  "type": "string",
+                  "description": "The value to provide in the  header to change user to mentor"
+               },
+               {
+                  "name": "userId",
+                  "in": "path",
+                  "description": "user id",
+                  "required": true,
+                  "type": "integer"
+               }
+            ],
+            "responses": {
+               "201": {
+                  "description": "User is changed  to mentor Successfully"
+               },
+               "400": {
+                  "description": "Bad Request "
+               },
+               "401": {
+                  "description": "Un Authorised"
+               },
+               "403": {
+                  "description": "For only dmin"
+               },
+               "500": {
+                  "description": "Server error"
+               }
+            }
+         }
+      },
+      "/mentors": {
+         "get": {
+            "tags": [
+               "Mentor"
+            ],
+            "summary": "Get all mentors",
+            "description": "User is able to fetch all available mentors",
+            "parameters": [
+               {
+                  "name": "x-auth-token",
+                  "in": "header",
+                  "description": "The user token"
+               }
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "can get all mentors"
+               },
+               "400": {
+                  "description": "Bad Request"
+               },
+               "404": {
+                  "description": "Mentors not found"
+               },
+               "500": {
+                  "description": "Server error"
+               }
+            }
+         }
+      },
+      "/mentors/{mentorId}": {
+         "get": {
+            "tags": [
+               "Mentor"
+            ],
+            "summary": "Get a specific mentor",
+            "description": "",
+            "operationId": "User can get specific mentor",
+            "consumes": [
+               "application/json",
+               "application/xml"
+            ],
+            "produces": [
+               "application/xml",
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "name": "x-auth-token",
+                  "in": "header",
+                  "type": "string",
+                  "description": "The value to provide in the  header of API request"
+               },
+               {
+                  "name": "mentorId",
+                  "in": "path",
+                  "description": "Mentor id",
+                  "required": true,
+                  "type": "integer"
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "can get a specific mentor"
+               },
+               "400": {
+                  "description": "Bad Request"
+               },
+               "404": {
+                  "description": "User of given id not found"
+               },
+               "500": {
+                  "description": "Server error"
+               }
+            }
+         }
+      },
+      "/sessions": {
+         "post": {
+            "tags": [
+               "Session"
+            ],
+            "summary": "Create a mentorship session request",
+            "description": "",
+            "operationId": "create-session",
+            "produces": [
+               "application/xml",
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "name": "x-auth-token",
+                  "in": "header",
+                  "type": "string",
+                  "description": "The value to provide in the  header of API request"
+               },
+               {
+                  "name": "body",
+                  "in": "body",
+                  "schema": {
+                     "$ref": "#/definitions/sessionRequest"
+                  }
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Session request sent Successfully"
+               },
+               "400": {
+                  "description": "Bad Request "
+               },
+               "401": {
+                  "description": "Unauthorized - No token provided "
+               },
+               "500": {
+                  "description": "Server error"
+               }
+            }
+         }
+      },
+      "/sessions/{sessionId}/accept": {
+         "patch": {
+            "tags": [
+               "Session"
+            ],
+            "summary": "A mentor can accept a mentorship session request.",
+            "description": "",
+            "operationId": "accept-session",
+            "produces": [
+               "application/xml",
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "name": "x-auth-token",
+                  "in": "header",
+                  "type": "string",
+                  "description": "The value to provide in the  header of API request"
+               },
+               {
+                  "name": "sessionId",
+                  "in": "path",
+                  "type": "string",
+                  "description": "Session Id to accept"
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Session request accepted"
+               },
+               "400": {
+                  "description": "Bad Request - invalid inputs "
+               },
+               "401": {
+                  "description": "Unauthorized -  No token provided"
+               },
+               "403": {
+                  "description": "Not allowed not a mentor"
+               },
+               "404": {
+                  "description": "Session id not found"
+               },
+               "500": {
+                  "description": "Server error"
+               }
+            }
+         }
+      },
+      "/sessions/{sessionId}/reject": {
+         "patch": {
+            "tags": [
+               "Session"
+            ],
+            "summary": "A mentor can reject a mentorship session request.",
+            "description": "",
+            "operationId": "accept-session",
+            "produces": [
+               "application/xml",
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "name": "x-auth-token",
+                  "in": "header",
+                  "type": "string",
+                  "description": "The value to provide in the  header of API request"
+               },
+               {
+                  "name": "sessionId",
+                  "in": "path",
+                  "type": "string",
+                  "description": "Session Id to accept"
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Session request rejected"
+               },
+               "400": {
+                  "description": "Bad Request - invalid inputs "
+               },
+               "401": {
+                  "description": "Unauthorized "
+               },
+               "404": {
+                  "description": "Session id not found"
+               },
+               "500": {
+                  "description": "Server error"
+               }
+            }
+         }
       }
-     },
-     "sessionRequest": {
-      "type":"object",
-      "properties": {
-        "mentorId": {
-        "type": "integer"
-        },
-        "questions": {
-         "type": "string"
-        }
-       },
-       "xml": {
-        "name": "Mentorship session request"
-       }      
-     }
-    }
+   },
+   "definitions": {
+      "signup": {
+         "type": "object",
+         "properties": {
+            "firstName": {
+               "type": "string"
+            },
+            "lastName": {
+               "type": "string"
+            },
+            "email": {
+               "type": "string"
+            },
+            "password": {
+               "type": "string"
+            },
+            "address": {
+               "type": "string"
+            },
+            "bio": {
+               "type": "string"
+            },
+            "occupation": {
+               "type": "string"
+            },
+            "expertise": {
+               "type": "string"
+            }
+         },
+         "xml": {
+            "name": "User Signup"
+         }
+      },
+      "signin": {
+         "type": "object",
+         "properties": {
+            "email": {
+               "type": "string"
+            },
+            "password": {
+               "type": "string"
+            }
+         },
+         "xml": {
+            "name": "User Signin"
+         }
+      },
+      "sessionRequest": {
+         "type": "object",
+         "properties": {
+            "mentorId": {
+               "type": "integer"
+            },
+            "questions": {
+               "type": "string"
+            }
+         },
+         "xml": {
+            "name": "Mentorship session request"
+         }
+      }
    }
+}
