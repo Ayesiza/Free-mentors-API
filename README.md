@@ -69,9 +69,11 @@ PATCH |`('/sessions/:id/reject')` | Reject Mentorship Session | Mentor
 
 https://www.pivotaltracker.com/n/projects/2379596
 
-#### gh-pages for UI
+#### Links
 
+https://free-mentor-api.herokuapp.com/
 
+https://ayesiza.github.io/Free-Mentors/
 
 
 ### Status Codes used
