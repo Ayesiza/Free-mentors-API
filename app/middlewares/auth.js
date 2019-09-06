@@ -73,8 +73,8 @@ class Auth {
   static validation(req, res, next) {
 
     const authSchema = Joi.object().keys({
-      firstName: Joi.string().min(3).regex(/^[a-zA-Z]+$/).required(),
-      lastName: Joi.string().min(3).regex(/^[a-zA-Z]+$/).required(),
+      firstName: Joi.string().trim().min(3).regex(/^[a-zA-Z]+$/).required(),
+      lastName: Joi.string().trim().min(3).regex(/^[a-zA-Z]+$/).required(),
       email: Joi.string().email({ minDomainSegments: 2 }).required(),
       password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
       address: Joi.string().min(3).regex(/^[a-zA-Z0-9]+$/).required(),

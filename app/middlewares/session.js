@@ -16,9 +16,14 @@ export const questionExist = (req,res,next) => {
 }
 
 export const notReviewOwn = (req,res,next)=>{
-  if(req.session.mentorId === req.user.id) return res.status(401).send({message:'you can not review yourself'})
+  if(req.session.mentorId === req.user.id) return res.status(400).send({stasus:400,message:'you can not review yourself'})
     next()
   }
+
+  export const shdReviewYourOwn = (req,res,next)=>{
+    if(req.session.menteeId !== req.user.id) return res.status(400).send({status:400,message:'you canot review some ones session'})
+      next()
+    }
 
 
   export const notReviewAgain = (req,res,next) => {

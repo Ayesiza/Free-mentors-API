@@ -2,7 +2,7 @@ import express from 'express'
 import user from '../controllers/userControllers'
 import auth from '../middlewares/auth'
 import session  from '../controllers/sessionsConrollers'
-import { getSessionById,questionExist,notReviewOwn,notReviewAgain } from '../middlewares/session'
+import { getSessionById,questionExist,notReviewOwn,notReviewAgain,shdReviewYourOwn } from '../middlewares/session'
 
 const router = express.Router()
 
@@ -14,6 +14,6 @@ router.get('/mentor/:id', auth.getToken, auth.checkParamsInPut,auth.getUserById,
 router.post('/sessions',auth.getToken, auth.verifyUserToken,questionExist, session.createSession);
 router.patch('/sessions/:id/accept', auth.getToken, auth.verifyUserToken, auth.userMentor, getSessionById,auth.sessOwner, session.acceptMentorshipSession);
 router.patch('/sessions/:id/reject', auth.getToken, auth.verifyUserToken, auth.userMentor,getSessionById, session.rejectSession);
-router.post('/sessions/:id/review',auth.getToken, auth.verifyUserToken, getSessionById,notReviewOwn,notReviewAgain, session.reviewSession )
+router.post('/sessions/:id/review',auth.getToken, auth.verifyUserToken, getSessionById,notReviewOwn,notReviewAgain,shdReviewYourOwn, session.reviewSession )
 
 export default router;
