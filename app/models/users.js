@@ -1,4 +1,6 @@
 import  { users } from '../data/userData'
+import client from '../services/database';
+
 class User {
     constructor( id, firstName, lastName, email, password, address, bio, occupation, expertise, admin, mentor){
         this.id = id;
