@@ -51,7 +51,7 @@ export const authData = [
 
 export const mentorData = [
     {
-        email: 'sherifa@gmail.com',
+        email: 'sherifamogan@gmail.com',
         password: 'kampala22'
     },
 
