@@ -2,6 +2,8 @@ import express from 'express'
 import request from 'supertest';
 import should from 'should';
 import apiRouters from '../app/routers/apiRouters';
+import {authData} from './testData'
+import {mentorData} from './testData'
 
 const app = express();
 
@@ -14,10 +16,7 @@ describe('Tests usermentor routes', () => {
     before((done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
-            .send({
-                email: 'sherifa@gmail.com',
-                password: 'kampala22'
-            })
+            .send(mentorData[0])
             .end((err, res) => {
                 adminToken = res.body.token;
                 done();
@@ -93,10 +92,7 @@ describe('Tests all usermentor routes', () => {
     before((done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
-            .send({
-                email: 'betty@gmail.com',
-                password: 'kampala22'
-            })
+            .send(mentorData[1])
             .end((err, res) => {
                 userToken = res.body.token;
                 done();
@@ -142,10 +138,7 @@ describe('Tests all specific mentor routes', () => {
     before((done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
-            .send({
-                email: 'betty@gmail.com',
-                password: 'kampala22'
-            })
+            .send(mentorData[1])
             .end((err, res) => {
                 userToken = res.body.token;
                 done();

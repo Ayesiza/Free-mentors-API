@@ -2,6 +2,7 @@ import express from 'express'
 import request from 'supertest';
 import should from 'should';
 import apiRouters from '../app/routers/apiRouters';
+import {authData} from './testData'
 
 const app = express();
 
@@ -13,18 +14,7 @@ describe('auth routes', () => {
     it('signUp first time user', (done) => {
         request(app)
             .post('/api/v1/users/auth/signup')
-            .send({
-                firstName: 'kelvin',
-                lastName: 'bawer',
-                email: 'kelvin@gmail.com',
-                password: 'kampala22',
-                address: 'lagos',
-                bio: 'born in November 4, 1989',
-                occupation: 'unversity student',
-                expertise: 'student of business',
-                admin: false,
-                mentor: false
-            })
+            .send(authData[0])
             .end((err, res) => {
                 res.status.should.equal(201);
                 res.body.message.should.equal('User created successfully');
@@ -34,18 +24,7 @@ describe('auth routes', () => {
     it('test signUp ifUserExist', (done) => {
         request(app)
             .post('/api/v1/users/auth/signup')
-            .send({
-                firstName: 'jane',
-                lastName: 'joe',
-                email: 'jane@gmail.com',
-                password: 'kampala22',
-                address: 'wakiso',
-                bio: 'born in November 4, 1989',
-                occupation: 'unversity student',
-                expertise: 'student of law',
-                admin: false,
-                mentor: false
-            })
+            .send(authData[1])
             .end((err, res) => {
                 res.status.should.equal(409);
                 res.body.message.should.equal('user already exist');
@@ -55,18 +34,7 @@ describe('auth routes', () => {
     it('invalid inputs firstName', (done) => {
         request(app)
             .post('/api/v1/users/auth/signup')
-            .send({
-                firstName: 'ja-ne',
-                lastName: 'joe',
-                email: 'jane@gmail.com',
-                password: 'jane5555',
-                address: 'wakiso',
-                bio: 'born in November 4, 1989',
-                occupation: 'unversity student',
-                expertise: 'student of law',
-                admin: false,
-                mentor: false
-            })
+            .send(authData[2])
             .end((err, res) => {
                 res.status.should.equal(400);
                 res.body.message.should.equal("firstName field is invalid");
@@ -77,10 +45,7 @@ describe('auth routes', () => {
     it('signIn/login success', (done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
-            .send({
-                "email": "jane@gmail.com",
-                "password": "kampala22"
-            })
+            .send(authData[3])
             .end((err, res) => {
                 res.status.should.equal(200);
                 res.body.message.should.equal('User is successfully logged in');
@@ -90,10 +55,7 @@ describe('auth routes', () => {
     it('signIn is user not exist', (done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
-            .send({
-                "email": "keneth@gmail.com",
-                "password": "kampala22"
-            })
+            .send(authData[4])
             .end((err, res) => {
                 res.status.should.equal(404);
                 res.body.message.should.equal('user not found');
@@ -104,10 +66,7 @@ describe('auth routes', () => {
     it('signIn on wrong details', (done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
-            .send({
-                "email": "jane@gmail.com",
-                "password": "jan5668"
-            })
+            .send(authData[5])
             .end((err, res) => {
                 res.status.should.equal(400);
                 res.body.message.should.equal('wrong email or password');
