@@ -2,6 +2,9 @@ import express from 'express'
 import request from 'supertest';
 import should from 'should';
 import apiRouters from '../app/routers/apiRouters';
+import {mentorData} from './testData'
+import {sessionData} from './testData'
+
 
 const app = express();
 
@@ -14,10 +17,7 @@ describe('Tests session routes', () => {
     before((done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
-            .send({
-                email: 'sherifa@gmail.com',
-                password: 'kampala22'
-            })
+            .send(mentorData[0])
             .end((err, res) => {
                 token = res.body.token;
                 done();
@@ -28,10 +28,7 @@ describe('Tests session routes', () => {
             .post('/api/v1/sessions')
             .set('Authorization', `Bearer ${token}`)
             .set('Accept', 'application/json')
-            .send({
-                mentorId: 40,
-                questions: 'Which leadership skills were the most difficult to develop?'
-            })
+            .send(sessionData[0])
             .end((err, res) => {
                 res.status.should.equal(200);
                 done();
@@ -42,10 +39,7 @@ describe('Tests session routes', () => {
             .post('/api/v1/sessions')
             .set('Authorization', `Bearer ${token}`)
             .set('Accept', 'application/json')
-            .send({
-                mentorId: 40,
-                questions: 'Which leadership skills were the most difficult to develop?'
-            })
+            .send(sessionData[0])
             .end((err, res) => {
                 res.status.should.equal(409);
                 res.body.message.should.equal('question already answered');
@@ -69,10 +63,7 @@ describe('Tests mentoship  sessions routes', () => {
     before((done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
-            .send({
-                email: 'martin@gmail.com',
-                password: 'kampala22'
-            })
+            .send(sessionData[2])
             .end((err, res) => {
                 token = res.body.token;
                 done();
@@ -142,10 +133,7 @@ describe('Tests Review session routes', () => {
     before((done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
-            .send({
-                email: 'sherifa@gmail.com',
-                password: 'kampala22'
-            })
+            .send(mentorData[0])
             .end((err, res) => {
                 token = res.body.token;
                 done();
@@ -156,10 +144,7 @@ describe('Tests Review session routes', () => {
             .post('/api/v1/sessions/2/review')
             .set('Authorization', `Bearer ${token}`)
             .set('Accept', 'application/json')
-            .send({
-                score: 5,
-                remark: 'very good'
-            })
+            .send(sessionData[1])
             .end((err, res) => {
                 res.status.should.equal(201);
                 done();
@@ -170,10 +155,7 @@ describe('Tests Review session routes', () => {
             .post('/api/v1/sessions/1/review')
             .set('Authorization', `Bearer ${token}`)
             .set('Accept', 'application/json')
-            .send({
-                score: 5,
-               remark: 'very good'
-            })
+            .send(sessionData[1])
             .end((err, res) => {
                 res.status.should.equal(400);
                 res.body.message.should.equal('you can not review yourself');
@@ -185,10 +167,7 @@ describe('Tests Review session routes', () => {
             .post('/api/v1/sessions/3/review')
             .set('Authorization', `Bearer ${token}`)
             .set('Accept', 'application/json')
-            .send({
-                score: 5,
-               remark: 'very good'
-            })
+            .send(sessionData[1])
             .end((err, res) => {
                 res.status.should.equal(400);
                 res.body.message.should.equal('you canot review some ones session');
@@ -200,10 +179,7 @@ describe('Tests Review session routes', () => {
             .post('/api/v1/sessions/2/review')
             .set('Authorization', `Bearer ${token}`)
             .set('Accept', 'application/json')
-            .send({
-                score: 5,
-               remark: 'very good'
-            })
+            .send(sessionData[1])
             .end((err, res) => {
                 res.status.should.equal(409);
                 res.body.message.should.equal('you can not review again');

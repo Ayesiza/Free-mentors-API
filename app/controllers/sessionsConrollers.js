@@ -27,7 +27,7 @@ export class SessionController {
   static reviewSession(req ,res){
     const {id,firstName,lastName} = req.user
     const {score,remark} = req.body
-    let sessionReview = {
+    const sessionReview = {
         sessionId: parseInt(req.params.id),
         mentorId: req.session.mentorId,
         menteeId: id,
