@@ -1,6 +1,7 @@
 import  { users } from '../data/userData'
 import client from '../services/database';
 
+
 class User {
     constructor( id, firstName, lastName, email, password, address, bio, occupation, expertise, admin, mentor){
         this.id = id;
@@ -16,9 +17,10 @@ class User {
         this. mentor = mentor; 
     }
     signUpUser(){
-         users.push(this);
-        return this
-     }
+        const userQuery = 'INSERT INTO users(firstName, lastName, email, password, address, bio, occupation, expertise, admin, mentor) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) returning *';
+        const values = [this.firstName, this.lastName, this.email, this.password, this.address, this.bio, this.occupation, this.expertise, this.admin, this.mentor]
+        return client.query(userQuery, values); 
+    }
     static getUserById (id){
         return users.find(user => user.id === parseInt(id))
     }

@@ -14,7 +14,7 @@ const users = `create table if not exists
         firstName varchar (50) not null,
         lastName varchar (50) not null,
         email varchar (50)  not null,
-        password varchar (50)  not null,
+        password varchar (500)  not null,
         address varchar (50) not null,
         bio varchar (50) not null,
         occupation varchar(255) not null,
@@ -41,7 +41,6 @@ sessionReviews(
     menteeFullName varchar (50)  not null,  
     remarks varchar (100)  not null
 )`;
-
 
 
 client.connect()
