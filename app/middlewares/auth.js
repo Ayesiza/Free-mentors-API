@@ -38,24 +38,24 @@ class Auth {
     next();
   }
 
-  static checkIfUserExist(req, res, next) {
+  static async checkIfUserExist(req, res, next) {
     const { email } = req.body;
-    const finduser = User.getUserByEmail(email);
-    if (finduser) return res.status(409).send({ status: 409, message: 'user already exist' })
+    const finduser = await User.getUserByEmail(email);
+    if (finduser.rows[0]) return res.status(409).send({ status: 409, message: 'user already exist' })
     next();
   }
-
+ 
 
   static async checkIfUserNotExist(req, res, next) {
-    const fetch_data = await User.getUserByEmail(req.body.email);
-    let user = fetch_data.rows[0];
-    if (!user) return res.status(404).send({ message: 'user not found' });
-    const hashedpassword = bcrypt.compareSync(req.body.password, user.password)
-    const { password, ...noA } = user;
+    const user = await User.getUserByEmail(req.body.email);
+    if (!user.rows[0]) return res.status(404).send({ message: 'user not found' });
+    const hashedpassword = bcrypt.compareSync(req.body.password, user.rows[0].password)
     if (!hashedpassword) return res.status(400).send({ message: 'wrong email or password' })
-    req.token = jwt.sign(noA, process.env.SECRETE_KEY, { expiresIn: '240hr' });
+    const {id,admin,email,mentor} = user.rows[0]
+    req.token = jwt.sign({id,admin,email,mentor}, process.env.SECRETE_KEY, { expiresIn: '240hr' });
     next();
   }
+
 
   static checkParamsInPut(req, res, next) {
     const checkInput = req.params.id.match(/^[0-9]+$/);
@@ -63,14 +63,14 @@ class Auth {
     next();
   }
 
-  static getUserById(req, res, next) {
-    const user = User.getUserById(req.params.id)
-    if (!user) return res.status(404).send({ status: 404, message: 'user of the given Id not found' })
-    req.user = user
+  static async getUserById(req, res, next) {
+    const user = await User.getUserById(req.params.id)
+    if (!user.rows[0]) return res.status(404).send({ status: 404, message: 'user of the given Id not found' })
+    req.user = user.rows[0]
     next();
   }
 
-
+  
   static validation(req, res, next) {
 
     const authSchema = Joi.object().keys({

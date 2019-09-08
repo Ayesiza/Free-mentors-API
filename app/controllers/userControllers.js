@@ -30,6 +30,12 @@ try{
     return res.send({ status: 200, message: 'User is successfully logged in', token: req.token })
   }
 
+  static changeUserToMentor(req, res) {
+    if (req.user.mentor === true) return res.send({ status: 409, message: 'User is already a mentor' })
+    User.changeUserToMentor(req.user.id)
+    return res.send({ status: 200, message: 'User account changed to mentor' })
+  }
+
   static getAllMentors(req, res) {
     const mentors = User.getAllMentors()
     let data = [];
@@ -47,10 +53,6 @@ try{
 
   }
 
-  static changeUserToMentor(req, res) {
-    if (req.user.mentor === true) return res.send({ status: 409, message: 'User is already a mentor' })
-    User.changeUserToMentor(req.user)
-    return res.send({ status: 200, message: 'User account changed to mentor' })
-  }
+ 
 }
 export default UserController;
