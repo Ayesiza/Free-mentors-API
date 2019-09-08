@@ -25,14 +25,21 @@ class User {
         const query = 'SELECT * FROM users WHERE email=$1';
         return client.query(query, [email]);
     }
-    
+    static getUserById (id){
+        const user = `SELECT * FROM users WHERE id = $1`;
+        return client.query(user,[id])
+    }
+    static changeUserToMentor(id){
+        const user = `UPDATE users SET mentor='true' WHERE id= $1  RETURNING *`;
+         return client.query(user,[id])
+       
+      }
+
     static getAllMentors(){
          return users.filter(user =>user.mentor === true )  
      }
      
-    static changeUserToMentor(user){
-      return user.mentor = true
-     }
+    
     }
 
 
