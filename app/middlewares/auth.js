@@ -46,8 +46,9 @@ class Auth {
   }
 
 
-  static checkIfUserNotExist(req, res, next) {
-    const user = User.getUserByEmail(req.body.email);
+  static async checkIfUserNotExist(req, res, next) {
+    const fetch_data = await User.getUserByEmail(req.body.email);
+    let user = fetch_data.rows[0];
     if (!user) return res.status(404).send({ message: 'user not found' });
     const hashedpassword = bcrypt.compareSync(req.body.password, user.password)
     const { password, ...noA } = user;

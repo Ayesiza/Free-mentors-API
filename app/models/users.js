@@ -21,12 +21,11 @@ class User {
         const values = [this.firstName, this.lastName, this.email, this.password, this.address, this.bio, this.occupation, this.expertise, this.admin, this.mentor]
         return client.query(userQuery, values); 
     }
-    static getUserById (id){
-        return users.find(user => user.id === parseInt(id))
+    static getUserByEmail(email) {
+        const query = 'SELECT * FROM users WHERE email=$1';
+        return client.query(query, [email]);
     }
-    static getUserByEmail(email){
-        return users.find(user => user.email === email)
-    }
+    
     static getAllMentors(){
          return users.filter(user =>user.mentor === true )  
      }
