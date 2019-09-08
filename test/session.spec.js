@@ -42,7 +42,7 @@ describe('Tests session routes', () => {
             .send(sessionData[0])
             .end((err, res) => {
                 res.status.should.equal(409);
-                res.body.message.should.equal('question already answered');
+                res.body.message.should.equal('You cannot ask this mentor the same question');
                 done();
             });
     });

@@ -1,4 +1,5 @@
 import { sessions}from '../data/sessionData';
+import Session from '../models/sessions';
 import { sessionReviews } from '../data/sessionReviews';
 
 class Review{
@@ -9,9 +10,10 @@ class Review{
   next();
   }
   
-  static questionExist(req,res,next){
-    const session = sessions.find(session => session.questions === req.body.questions)
-      if(session ) return res.status(409).send({error:409,message:'question already answered'});
+  static async questionExist(req,res,next){
+    const{questions,mentorId}=req.body
+    const session = await Session.questionExist(questions,mentorId)
+      if(session.rows[0]) return res.status(409).send({error:409,message:'You cannot ask this mentor the same question'});
     next();
   }
 
