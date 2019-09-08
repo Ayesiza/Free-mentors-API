@@ -3,13 +3,14 @@ import Session from '../models/sessions';
 import { sessionReviews } from '../data/sessionReviews';
 
 class Review{
-  static getSessionById(req,res,next){
-    const session = sessions.find(session => session.sessionId === parseInt(req.params.id))
-    if(!session) return res.status(404).send({status:404, message:'session of the given Id not found'})
-    req.session = session
+  static async getSessionById(req,res,next){
+    const session = await Session.getSessionById(req.params.id)
+    if(!session.rows[0]) return res.status(404).send({status:404, message:'session of the given Id not found'})
+    req.session = session.rows[0]
+    
   next();
   }
-  
+
   static async questionExist(req,res,next){
     const{questions,mentorId}=req.body
     const session = await Session.questionExist(questions,mentorId)

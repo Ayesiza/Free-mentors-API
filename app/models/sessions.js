@@ -22,12 +22,16 @@ class Session {
         return client.query(query, [questions,mentorId]);   
     }
 
-
-    static acceptMentorshipSession(session){ 
-         session.status = 'accepted'
-        return session
+    static acceptMentorshipSession(sessionId){ 
+        const acceptSession = `UPDATE sessions SET status='accepted' WHERE sessionId= $1 RETURNING *`;
+        return client.query(acceptSession, [sessionId]);
        
      } 
+    static getSessionById(sessionId){
+     const session = `SELECT * FROM sessions WHERE sessionId = $1`;
+      return client.query(session,[sessionId])
+    }
+
     static rejectSession(session){ 
      session.status = 'rejected'
      return session

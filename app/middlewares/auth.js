@@ -34,7 +34,8 @@ class Auth {
 
 
   static sessOwner(req, res, next) {
-    if (req.session.mentorId !== req.user.id) return res.status(403).send({ error: 403, message: 'not your session request' });
+    if (req.session.mentorid !== req.user.id) return res.status(403).send({ error: 403, message: 'not your session request' });
+  
     next();
   }
 

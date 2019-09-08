@@ -15,13 +15,13 @@ export class SessionController {
   }
   };
 
-
-  static acceptMentorshipSession(req, res) {
+  static async acceptMentorshipSession(req, res) {
     if(req.session.status==='accepted') return res.status(409).send({status:409, message:'Session Already Accepted'})
-    const session = Session.acceptMentorshipSession(req.session)
-    return res.send({ status: 200, session })
+    const session = await Session.acceptMentorshipSession((req.session.sessionid))
+    console.log(req.session)
+    return res.send({ status:200, session:session.rows[0]})
   }
-
+ 
 
   static rejectSession(req, res) {
     const session = Session.rejectSession(req.session)
