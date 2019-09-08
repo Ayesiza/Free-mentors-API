@@ -32,9 +32,9 @@ class Session {
       return client.query(session,[sessionId])
     }
 
-    static rejectSession(session){ 
-     session.status = 'rejected'
-     return session
+    static rejectSession(sessionId){ 
+        const rejectSession = `UPDATE sessions SET status='rejected' WHERE sessionId= $1 RETURNING *`;
+        return client.query(rejectSession, [sessionId]);
      } 
 }
  
