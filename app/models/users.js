@@ -35,12 +35,12 @@ class User {
        
       }
 
-    static getAllMentors(){
-         return users.filter(user =>user.mentor === true )  
-     }
-     
+ static getAllMentors(){
+    const user = `SELECT * FROM users WHERE mentor= 'true'`;
+        return client.query(user); 
+   }
     
-    }
+}
 
 
  export default User;
