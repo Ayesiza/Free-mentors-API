@@ -11,16 +11,20 @@ import bcrypt from 'bcrypt';
 dotenv.config();
 
 export class UserController {
-  static signUpUser(req, res) {
-
+  static async signUpUser(req, res) {
+try{
     const { firstName, lastName, email, address, bio, occupation, expertise, admin, mentor } = req.body;
     const id = users.length + 1;
     const hashPassword = bcrypt.hashSync(req.body.password, 10);
     const user = new User(id, firstName, lastName, email, hashPassword, address, bio, occupation, expertise, admin, mentor)
     const token = jwt.sign({ id, email, admin, mentor }, process.env.SECRETE_KEY, { expiresIn: '240hr' });
-    user.signUpUser()
+  await user.signUpUser()
     return res.status(201).send({ status: 201, token, message: 'User created successfully' });
+  } catch (error){
+    return res.status(400).send({status:400, message:error.message});
+  }
   };
+
 
   static signInUser(req, res) {
     return res.send({ status: 200, message: 'User is successfully logged in', token: req.token })
