@@ -36,16 +36,18 @@ try{
     return res.send({ status: 200, message: 'User account changed to mentor' })
   }
 
-  static getAllMentors(req, res) {
-    const mentors = User.getAllMentors()
+  static async getAllMentors(req, res) {
+    const mentors = await User.getAllMentors()
     let data = [];
-    for (let mentor = 0; mentor < mentors.length; mentor++) {
-      const { password, ...noA } = mentors[mentor];
+    for (let mentor = 0; mentor < mentors.rows.length; mentor++) {
+      const { password, ...noA } = mentors.rows[mentor];
       data.push(noA)
     }
-    return res.send({ status: 200, data })
+    return res.send({ status: 200, data})
 
   }
+
+ 
   static specificMentor(req, res) {
     if (req.user.mentor === false) return res.send({ status: 404, message: 'Selected User is  not a mentor' })
     const { password, ...noA } = req.user;
