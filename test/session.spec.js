@@ -2,8 +2,8 @@ import express from 'express'
 import request from 'supertest';
 import should from 'should';
 import apiRouters from '../app/routers/apiRouters';
-import {mentorData} from './testData'
-import {sessionData} from './testData'
+import {mentorData, authData,sessionData} from './testData'
+
 
 
 const app = express();
@@ -13,31 +13,44 @@ app.use(express.json());
 app.use('/api/v1/', apiRouters);
 
 describe('Tests session routes', () => {
-    let token = '';
+    let userToken = '';
     before((done) => {
         request(app)
-            .post('/api/v1/users/auth/signin')
-            .send(mentorData[0])
+            .post('/api/v1/users/auth/signup')
+            .send(authData[7])
             .end((err, res) => {
-                token = res.body.token;
+                userToken = res.body.token;
                 done();
             });
     });
     it('create Mentorship session', (done) => {
         request(app)
             .post('/api/v1/sessions')
-            .set('Authorization', `Bearer ${token}`)
+            .set('Authorization', `Bearer ${userToken}`)
             .set('Accept', 'application/json')
             .send(sessionData[0])
             .end((err, res) => {
                 res.status.should.equal(200);
+                
                 done();
             });
     });
-    it('create Mentorship session', (done) => {
+    it('create Mentorship session2', (done) => {
         request(app)
             .post('/api/v1/sessions')
-            .set('Authorization', `Bearer ${token}`)
+            .set('Authorization', `Bearer ${userToken}`)
+            .set('Accept', 'application/json')
+            .send(sessionData[5])
+            .end((err, res) => {
+                res.status.should.equal(200);
+                
+                done();
+            });
+    });
+    it('create Mentorship session dont ask same question', (done) => {
+        request(app)
+            .post('/api/v1/sessions')
+            .set('Authorization', `Bearer ${userToken}`)
             .set('Accept', 'application/json')
             .send(sessionData[0])
             .end((err, res) => {
@@ -46,10 +59,11 @@ describe('Tests session routes', () => {
                 done();
             });
     });
+  
     it('reject mentorship session for  only mentor', (done) => {
         request(app)
             .patch('/api/v1/sessions/1/reject')
-            .set('Authorization', `Bearer ${token}`)
+            .set('Authorization', `Bearer ${userToken}`)
             .end((err, res) => {
                 res.status.should.equal(403);
                 res.body.message.should.equal('for only mentor');
@@ -63,7 +77,7 @@ describe('Tests mentoship  sessions routes', () => {
     before((done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
-            .send(sessionData[2])
+            .send(sessionData[4])
             .end((err, res) => {
                 token = res.body.token;
                 done();
@@ -71,16 +85,17 @@ describe('Tests mentoship  sessions routes', () => {
     });
     it('accept mentorship session', (done) => {
         request(app)
-            .patch('/api/v1/sessions/2/accept')
+            .patch('/api/v1/sessions/1/accept')
             .set('Authorization', `Bearer ${token}`)
             .end((err, res) => {
                 res.status.should.equal(200);
+                
                 done();
             });
     });
     it('Not accept session already accepted', (done) => {
         request(app)
-            .patch('/api/v1/sessions/2/accept')
+            .patch('/api/v1/sessions/1/accept')
             .set('Authorization', `Bearer ${token}`)
             .end((err, res) => {
                 res.status.should.equal(409);
@@ -88,8 +103,17 @@ describe('Tests mentoship  sessions routes', () => {
                 done();
             });
     });
-    
-    it('accept mentorship session', (done) => {
+    it('session request not for this mentor', (done) => {
+        request(app)
+            .patch('/api/v1/sessions/2/accept')
+            .set('Authorization', `Bearer ${token}`)
+            .end((err, res) => {
+                res.status.should.equal(403);
+                res.body.message.should.equal('not your session request');
+                done();
+            });
+    });
+    it('accept mentorship session not exit', (done) => {
         request(app)
             .patch('/api/v1/sessions/9/accept')
             .set('Authorization', `Bearer ${token}`)
@@ -98,16 +122,8 @@ describe('Tests mentoship  sessions routes', () => {
                 done();
             });
     });
-    it('session request not for mentor', (done) => {
-        request(app)
-            .patch('/api/v1/sessions/3/accept')
-            .set('Authorization', `Bearer ${token}`)
-            .end((err, res) => {
-                res.status.should.equal(403);
-                res.body.message.should.equal('not your session request');
-                done();
-            });
-    });
+
+   
     it('reject mentorship session', (done) => {
         request(app)
             .patch('/api/v1/sessions/1/reject')
@@ -117,7 +133,7 @@ describe('Tests mentoship  sessions routes', () => {
                 done();
             });
     });
-    it('reject mentorship session', (done) => {
+    it('reject mentorship session not exist', (done) => {
         request(app)
             .patch('/api/v1/sessions/10/reject')
             .set('Authorization', `Bearer ${token}`)
@@ -127,6 +143,7 @@ describe('Tests mentoship  sessions routes', () => {
             });
     });
 });
+
 
 describe('Tests Review session routes', () => {
     let token = '';

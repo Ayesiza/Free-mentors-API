@@ -24,9 +24,8 @@ describe('auth routes', () => {
     it('test signUp ifUserExist', (done) => {
         request(app)
             .post('/api/v1/users/auth/signup')
-            .send(authData[1])
+            .send(authData[0])
             .end((err, res) => {
-                res.status.should.equal(409);
                 res.body.message.should.equal('user already exist');
                 done();
             });
@@ -45,7 +44,7 @@ describe('auth routes', () => {
     it('signIn/login success', (done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
-            .send(authData[3])
+            .send(authData[6])
             .end((err, res) => {
                 res.status.should.equal(200);
                 res.body.message.should.equal('User is successfully logged in');
@@ -55,7 +54,7 @@ describe('auth routes', () => {
     it('signIn is user not exist', (done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
-            .send(authData[4])
+            .send(authData[14])
             .end((err, res) => {
                 res.status.should.equal(404);
                 res.body.message.should.equal('user not found');
