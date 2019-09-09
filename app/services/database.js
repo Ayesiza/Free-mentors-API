@@ -3,10 +3,9 @@ import dotenv from 'dotenv';
 
  dotenv.config();
 
-const client = new Client({
-    connectionString:process.env.DATABASE_STRING
-    
-});
+const client = process.env.NODE_ENV === 'test'
+? new Client({connectionString:process.env.TEST_DATABASE})
+: new Client({connectionString:process.env.DATABASE_STRING})
 
 const users = `create table if not exists
       users (
@@ -44,11 +43,20 @@ sessionReviews(
 
 
 client.connect()
-.then(() => console.log('connected successfully . . .'))
-.then(() => client.query(users))
-.then(() => client.query(sessions))
-.then(() => client.query(sessionsReviews))
-.catch(e => console.log(e.message))
+if (process.env.NODE_ENV === 'test') {
+    client.query('drop table if  exists sessions')
+    client.query('drop table if  exists sessionsReviews')
+    client.query('drop table if  exists users')
+    client.query(users)
+    client.query(sessions)
+    client.query(sessionsReviews)
+
+} else {
+    client.query(users)
+    client.query(sessions)
+    client.query(sessionsReviews)
+}
+
 
 
 export default client;

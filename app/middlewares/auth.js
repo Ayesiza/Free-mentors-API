@@ -57,7 +57,6 @@ class Auth {
     next();
   }
 
-
   static checkParamsInPut(req, res, next) {
     const checkInput = req.params.id.match(/^[0-9]+$/);
     if (!checkInput) return res.status(400).send({ error: 400, message: 'parameter should be a valid number' })

@@ -44,15 +44,40 @@ export const authData = [
         password: "kampala22"
     },
     {
-        email: "jane@gmail.com",
-        password: "jan5668"
+        email: 'kelvin@gmail.com',
+        password: 'kampala22ss',
+    },
+    {
+        email: 'kelvin@gmail.com',
+        password: 'kampala22',
+    },
+    {
+        firstName: 'ben',
+        lastName: 'ben',
+        email: 'ben@gmail.com',
+        password: 'kampala22',
+        address: 'lagos',
+        bio: 'born in November 4, 1989',
+        occupation: 'unversity student',
+        expertise: 'student of business',
+        admin: false,
+        mentor: false
     }
+    
 ]
 
 export const mentorData = [
     {
+        firstName: 'sherifa',
+        lastName: 'mogan',
         email: 'sherifamogan@gmail.com',
-        password: 'kampala22'
+        password: 'kampala22',
+        address: 'lagos',
+        bio: 'born in November 4, 1989',
+        occupation: 'unversity student',
+        expertise: 'student of business',
+        admin: true,
+        mentor: true
     },
 
     {
@@ -64,8 +89,8 @@ export const mentorData = [
 
 export const sessionData = [
     {
-        mentorId: 40,
-        questions: 'Which leadership skills were the most difficult to develop?'
+        mentorId: 2,
+        questions: 'Which leadership skills were the most difficult to you?'
     },
     {
         score: 5,
@@ -74,6 +99,28 @@ export const sessionData = [
     {
         email: 'martin@gmail.com',
         password: 'kampala22'
-    }
+    },
+    {
+        firstName: 'kimuli',
+        lastName: 'grace',
+        email: 'betty@gmail.com',
+        password: 'kampala22',
+        address: 'hoima',
+        bio: 'born in November 4, 1989',
+        occupation: 'entreprenuer',
+        expertise: 'business administration',
+        admin: false,
+        mentor: false
+    },
 
+    {
+       
+        email: 'sherifamogan@gmail.com',
+        password: 'kampala22',
+       
+    },
+    {
+        mentorId: 1,
+        questions: 'Which leadership skills were the most  to you?'
+    },
 ]

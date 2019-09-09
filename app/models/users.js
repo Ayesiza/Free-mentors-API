@@ -3,8 +3,7 @@ import client from '../services/database';
 
 
 class User {
-    constructor( id, firstName, lastName, email, password, address, bio, occupation, expertise, admin, mentor){
-        this.id = id;
+    constructor(firstName, lastName, email, password, address, bio, occupation, expertise, admin, mentor){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

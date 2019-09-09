@@ -1,6 +1,5 @@
 import Session from '../models/sessions';
-import { sessions } from '../data/sessionData';
-import { sessionReviews } from '../data/sessionReviews';
+import reviewSession from '../models/reviews'
 
 export class SessionController {
   static async createSession(req, res) {
@@ -38,7 +37,7 @@ export class SessionController {
         menteeFullName: `${firstName} ${lastName}` ,
         remark: remark,
     }
-    sessionReviews.push(sessionReview)
+    const review = reviewSession.reviewSession(sessionReview)
     res.status(201).send({status:201,data:sessionReview})
   }
 }
