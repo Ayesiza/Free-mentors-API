@@ -18,16 +18,16 @@ export class SessionController {
     if(req.session.status==='accepted') return res.status(409).send({status:409, message:'Session Already Accepted'})
     const session = await Session.acceptMentorshipSession((req.session.session_id))
     return res.send({ status:200, session:session.rows[0]})
-  }
+  };
  
-
   static async rejectSession(req, res) {
     const session = await Session.rejectSession(req.session.session_id)
     return res.send({ status: 200, session:session.rows[0]})
   }
 
+  
   static async reviewSession(req ,res){
-    try {
+ 
       const {id,first_name,last_name} = req.user
       const {score,remarks} = req.body
       const sessionReview = {
@@ -38,13 +38,11 @@ export class SessionController {
           mentee_full_name: `${first_name} ${last_name}` ,
           remarks: remarks,
       }
-      const review = await reviewSession.reviewSession(sessionReview)
+    const review = await reviewSession.reviewSession(sessionReview)
       return res.status(201).send({status:201,data:review.rows[0]})
-    } catch (error) {
-      res.send(error.message)
-    }
+   
     
   }
-}
+};
 
 export default SessionController;
