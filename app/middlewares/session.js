@@ -33,7 +33,7 @@ class Review{
     }
 
     static shdReviewYourOwn(req,res,next){
-      if(req.session.mentee_id !== req.user.id) return res.status(400).send({status:400,message:'you canot review some ones session'})
+      if(req.session.mentee_id !== req.user.id) return res.status(400).send({status:400,message:'you canot review someones session'})
         next()
     }
 

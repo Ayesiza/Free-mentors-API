@@ -2,10 +2,7 @@ import express from 'express'
 import request from 'supertest';
 import should from 'should';
 import apiRouters from '../app/routers/apiRouters';
-import {
-    authData
-}
-from './testData'
+import {authData}from './testData'
 
 const app = express();
 

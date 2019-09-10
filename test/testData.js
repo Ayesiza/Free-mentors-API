@@ -84,6 +84,10 @@ export const mentorData = [
         email: 'betty@gmail.com',
         password: 'kampala22'
     },
+    {
+        email: 'ben@gmail.com',
+        password: 'kampala22'
+    },
     
 ]
 
@@ -123,4 +127,13 @@ export const sessionData = [
         mentor_id: 1,
         questions: 'Which leadership skills were the most  to you?'
     },
+    {
+        mentor_id: 1,
+        questions: 'what leadership skills were the most  to you?'
+    },
+    {
+        mentor_id: 2,
+        questions: 'what leadership skills were the most  to y?'
+    },
+
 ]
