@@ -1,6 +1,7 @@
 import { sessions}from '../data/sessionData';
 import Session from '../models/sessions';
 import { sessionReviews } from '../data/sessionReviews';
+import User from '../models/users';
 
 class Review{
   static async getSessionById(req,res,next){
@@ -10,11 +11,19 @@ class Review{
     
   next();
   }
-
-  static async questionExist(req,res,next){
+  static async sessionAlreadyExist(req,res,next){
     const{questions,mentorId}=req.body
-    const session = await Session.questionExist(questions,mentorId)
-      if(session.rows[0]) return res.status(409).send({error:409,message:'You cannot ask this mentor the same question'});
+    const session = await Session.sessionAlreadyExist(questions,mentorId)
+    if(session.rows[0]) return res.status(409).send({status:409, message:'session already exists'})
+    req.session = session.rows[0]
+    
+  next();
+  }
+  
+
+  static async ifMentorExists(req, res, next) {
+    const user = await User.getUserById(req.body.mentorId)
+    if (!user.rows[0]) return res.status(404).send({ status: 404, message: 'Mentor with the given Id not found' })
     next();
   }
 

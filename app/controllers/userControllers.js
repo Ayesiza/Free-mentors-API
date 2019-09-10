@@ -18,7 +18,8 @@ try{
     const createdUser = await user.signUpUser()
     const { id } = createdUser.rows[0]
     const token = jwt.sign({id, email, admin, mentor }, process.env.SECRETE_KEY, { expiresIn: '240hr' });
-    return res.status(201).send({ status: 201, message: 'User created successfully',token,user});
+    const { password, ...noA } = createdUser.rows[0];
+    return res.status(201).send({ status: 201, message: 'User created successfully',data:noA,token});
   } catch (error){
     return res.status(400).send({status:400, message:error.message});
   }
@@ -26,7 +27,8 @@ try{
 
 
   static signInUser(req, res) {
-    return res.send({ status: 200, message: 'User is successfully logged in', token: req.token })
+    const { password, ...noA } = req.user;
+    return res.send({ status: 200, message: 'User is successfully logged in',data:noA, token: req.token })
   }
 
   static changeUserToMentor(req, res) {

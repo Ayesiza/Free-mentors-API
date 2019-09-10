@@ -38,7 +38,11 @@ class Auth {
   
     next();
   }
-
+  static rejectOnlyOwn(req, res, next) {
+    if (req.session.mentorid !== req.user.id) return res.status(403).send({ error: 403, message: 'You cannot reject a session for another mentor' });
+  
+    next();
+  }
   static async checkIfUserExist(req, res, next) {
     const { email } = req.body;
     const finduser = await User.getUserByEmail(email);
@@ -54,6 +58,7 @@ class Auth {
     if (!hashedpassword) return res.status(400).send({ message: 'wrong email or password' })
     const {id,admin,email,mentor} = user.rows[0]
     req.token = jwt.sign({id,admin,email,mentor}, process.env.SECRETE_KEY, { expiresIn: '240hr' });
+    req.user = user.rows[0]
     next();
   }
 

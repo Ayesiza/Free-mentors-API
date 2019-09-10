@@ -2,9 +2,18 @@ import express from 'express'
 import request from 'supertest';
 import should from 'should';
 import apiRouters from '../app/routers/apiRouters';
-import {authData} from './testData'
-import {mentorData} from './testData'
-import {sessionData} from './testData'
+import {
+    authData
+}
+from './testData'
+import {
+    mentorData
+}
+from './testData'
+import {
+    sessionData
+}
+from './testData'
 
 const app = express();
 
@@ -23,7 +32,7 @@ describe('Tests usermentor routes', () => {
                 done();
             });
     });
-   
+
     it('changeUserToMentor', (done) => {
         request(app)
             .patch('/api/v1/user/1')
@@ -86,7 +95,7 @@ describe('Tests usermentor routes', () => {
                 done();
             });
     });
-   
+
 });
 
 describe('Tests all usermentor routes', () => {
@@ -120,7 +129,7 @@ describe('Tests all usermentor routes', () => {
                 res.body.message.should.equal('for only admin');
                 done();
             });
-    }); 
+    });
 
     it('tests allMentors get token', (done) => {
         request(app)
@@ -132,7 +141,6 @@ describe('Tests all usermentor routes', () => {
             });
     });
 
-   
 });
 
 describe('Tests all specific mentor routes', () => {
@@ -176,13 +184,12 @@ describe('Tests all specific mentor routes', () => {
                 done();
             });
     });
-it('specficMentor not a mentor', (done) => {
+    it('specficMentor not a mentor', (done) => {
         request(app)
             .get('/api/v1/mentor/2')
             .set('Authorization', `Bearer ${userToken}`)
             .end((err, res) => {
-                
-                
+
                 done();
             });
     });

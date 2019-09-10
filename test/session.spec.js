@@ -2,9 +2,10 @@ import express from 'express'
 import request from 'supertest';
 import should from 'should';
 import apiRouters from '../app/routers/apiRouters';
-import {mentorData, authData,sessionData} from './testData'
-
-
+import {
+    mentorData, authData, sessionData
+}
+from './testData'
 
 const app = express();
 
@@ -31,7 +32,7 @@ describe('Tests session routes', () => {
             .send(sessionData[0])
             .end((err, res) => {
                 res.status.should.equal(200);
-                
+
                 done();
             });
     });
@@ -43,7 +44,7 @@ describe('Tests session routes', () => {
             .send(sessionData[5])
             .end((err, res) => {
                 res.status.should.equal(200);
-                
+
                 done();
             });
     });
@@ -55,11 +56,11 @@ describe('Tests session routes', () => {
             .send(sessionData[0])
             .end((err, res) => {
                 res.status.should.equal(409);
-                res.body.message.should.equal('You cannot ask this mentor the same question');
+                res.body.message.should.equal('session already exists');
                 done();
             });
     });
-  
+
     it('reject mentorship session for  only mentor', (done) => {
         request(app)
             .patch('/api/v1/sessions/1/reject')
@@ -89,7 +90,7 @@ describe('Tests mentoship  sessions routes', () => {
             .set('Authorization', `Bearer ${token}`)
             .end((err, res) => {
                 res.status.should.equal(200);
-                
+
                 done();
             });
     });
@@ -123,7 +124,6 @@ describe('Tests mentoship  sessions routes', () => {
             });
     });
 
-   
     it('reject mentorship session', (done) => {
         request(app)
             .patch('/api/v1/sessions/1/reject')
@@ -143,7 +143,6 @@ describe('Tests mentoship  sessions routes', () => {
             });
     });
 });
-
 
 describe('Tests Review session routes', () => {
     let token = '';

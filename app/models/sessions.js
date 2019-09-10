@@ -16,12 +16,14 @@ class Session {
         const values = [this.mentorId, this.questions, this.menteeId, this.menteeEmail]
         return client.query(sessionQuery, values); 
     }
-    
-    static questionExist(questions,mentorId){
-     const query = 'SELECT * FROM sessions WHERE questions=$1 and mentorId = $2 '
-        return client.query(query, [questions,mentorId]);   
-    }
+   
+    static sessionAlreadyExist(questions,mentorId){
+        const query = 'SELECT * FROM sessions WHERE questions=$1 and mentorId = $2 '
+           return client.query(query, [questions,mentorId]);   
+       }
 
+   
+   
     static acceptMentorshipSession(sessionId){ 
         const acceptSession = `UPDATE sessions SET status='accepted' WHERE sessionId= $1 RETURNING *`;
         return client.query(acceptSession, [sessionId]);
