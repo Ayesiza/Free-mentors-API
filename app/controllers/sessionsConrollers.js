@@ -4,9 +4,9 @@ import reviewSession from '../models/reviews'
 export class SessionController {
   static async createSession(req, res) {
     try{
-    const { mentorId, questions } = req.body;
+    const { mentor_id, questions } = req.body;
     const { id, email } = req.user
-    const newSession = new Session(mentorId, questions, id, email)
+    const newSession = new Session(mentor_id, questions, id, email)
     const session = await newSession.createSession();
     return res.status(200).send({ status: 200, data:session.rows[0]});
   }  catch (error){
@@ -16,29 +16,34 @@ export class SessionController {
 
   static async acceptMentorshipSession(req, res) {
     if(req.session.status==='accepted') return res.status(409).send({status:409, message:'Session Already Accepted'})
-    const session = await Session.acceptMentorshipSession((req.session.sessionid))
+    const session = await Session.acceptMentorshipSession((req.session.session_id))
     return res.send({ status:200, session:session.rows[0]})
   }
  
 
   static async rejectSession(req, res) {
-    const session = await Session.rejectSession(req.session.sessionid)
+    const session = await Session.rejectSession(req.session.session_id)
     return res.send({ status: 200, session:session.rows[0]})
   }
 
-  static reviewSession(req ,res){
-    const {id,firstName,lastName} = req.user
-    const {score,remark} = req.body
-    const sessionReview = {
-        sessionId: parseInt(req.params.id),
-        mentorId: req.session.mentorId,
-        menteeId: id,
-        score: score,
-        menteeFullName: `${firstName} ${lastName}` ,
-        remark: remark,
+  static async reviewSession(req ,res){
+    try {
+      const {id,first_name,last_name} = req.user
+      const {score,remarks} = req.body
+      const sessionReview = {
+          session_id: parseInt(req.params.id),
+          mentor_id: req.session.mentor_id,
+          mentee_id: id,
+          score: score,
+          mentee_full_name: `${first_name} ${last_name}` ,
+          remarks: remarks,
+      }
+      const review = await reviewSession.reviewSession(sessionReview)
+      return res.status(201).send({status:201,data:review.rows[0]})
+    } catch (error) {
+      res.send(error.message)
     }
-    const review = reviewSession.reviewSession(sessionReview)
-    res.status(201).send({status:201,data:sessionReview})
+    
   }
 }
 

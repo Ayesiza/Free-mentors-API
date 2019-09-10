@@ -10,8 +10,8 @@ const client = process.env.NODE_ENV === 'test'
 const users = `create table if not exists
       users (
         id serial primary key,
-        firstName varchar (50) not null,
-        lastName varchar (50) not null,
+        first_name varchar (50) not null,
+        last_name varchar (50) not null,
         email varchar (50)  not null,
         password varchar (500)  not null,
         address varchar (50) not null,
@@ -24,20 +24,20 @@ const users = `create table if not exists
  
 const sessions = `create table if not exists
     sessions(
-        sessionId serial primary key,
-        mentorId int not null,
+        session_id serial primary key,
+        mentor_id int not null,
         questions varchar (500)  not null,
-        menteeId int not null,
-        menteeEmail varchar (100)  not null,  
+        mentee_id int not null,
+        mentee_email varchar (100)  not null,  
         status varchar (50) default 'pending' not null
     )`;
-const sessionsReviews =`create table if not exists
+const sessionReviews =`create table if not exists
 sessionReviews(
-    sessionId serial primary key,
-    mentorId int not null,
-    menteeId int not null,
+    session_id serial primary key,
+    mentor_id int not null,
+    mentee_id int not null,
     score int not null,
-    menteeFullName varchar (50)  not null,  
+    mentee_full_name varchar (50)  not null,  
     remarks varchar (100)  not null
 )`;
 
@@ -45,16 +45,15 @@ sessionReviews(
 client.connect()
 if (process.env.NODE_ENV === 'test') {
     client.query('drop table if  exists sessions')
-    client.query('drop table if  exists sessionsReviews')
+    client.query('drop table if  exists sessionReviews')
     client.query('drop table if  exists users')
     client.query(users)
     client.query(sessions)
-    client.query(sessionsReviews)
-
+    client.query(sessionReviews)
 } else {
     client.query(users)
     client.query(sessions)
-    client.query(sessionsReviews)
+    client.query(sessionReviews)
 }
 
 

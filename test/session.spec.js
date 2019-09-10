@@ -2,10 +2,7 @@ import express from 'express'
 import request from 'supertest';
 import should from 'should';
 import apiRouters from '../app/routers/apiRouters';
-import {
-    mentorData, authData, sessionData
-}
-from './testData'
+import { mentorData, authData, sessionData }from './testData'
 
 const app = express();
 
@@ -48,7 +45,7 @@ describe('Tests session routes', () => {
                 done();
             });
     });
-    it('create Mentorship session dont ask same question', (done) => {
+    it('create Mentorship session session aready exist', (done) => {
         request(app)
             .post('/api/v1/sessions')
             .set('Authorization', `Bearer ${userToken}`)
@@ -149,7 +146,7 @@ describe('Tests Review session routes', () => {
     before((done) => {
         request(app)
             .post('/api/v1/users/auth/signin')
-            .send(mentorData[0])
+            .send(sessionData[4])
             .end((err, res) => {
                 token = res.body.token;
                 done();
@@ -157,18 +154,19 @@ describe('Tests Review session routes', () => {
     });
     it('Review mentor', (done) => {
         request(app)
-            .post('/api/v1/sessions/2/review')
+            .post('/api/v1/sessions/1/review')
             .set('Authorization', `Bearer ${token}`)
             .set('Accept', 'application/json')
             .send(sessionData[1])
             .end((err, res) => {
-                res.status.should.equal(201);
+                
+                res.body.message.should.equal('you  review yourself');
                 done();
             });
     });
     it('Review session you cannot review yourself', (done) => {
         request(app)
-            .post('/api/v1/sessions/1/review')
+            .post('/api/v1/sessions/2/review')
             .set('Authorization', `Bearer ${token}`)
             .set('Accept', 'application/json')
             .send(sessionData[1])
@@ -178,9 +176,9 @@ describe('Tests Review session routes', () => {
                 done();
             });
     });
-    it('Review session you cannot review your own session', (done) => {
+    it('Review session you cannot review someones session', (done) => {
         request(app)
-            .post('/api/v1/sessions/3/review')
+            .post('/api/v1/sessions/2/review')
             .set('Authorization', `Bearer ${token}`)
             .set('Accept', 'application/json')
             .send(sessionData[1])
@@ -190,9 +188,9 @@ describe('Tests Review session routes', () => {
                 done();
             });
     });
-    it('Review session not review session again', (done) => {
+    it('Review session not review again', (done) => {
         request(app)
-            .post('/api/v1/sessions/2/review')
+            .post('/api/v1/sessions/18/review')
             .set('Authorization', `Bearer ${token}`)
             .set('Accept', 'application/json')
             .send(sessionData[1])

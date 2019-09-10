@@ -1,7 +1,7 @@
-import { sessions}from '../data/sessionData';
 import Session from '../models/sessions';
-import { sessionReviews } from '../data/sessionReviews';
 import User from '../models/users';
+import Reviewsession from '../models/reviews';
+
 
 class Review{
   static async getSessionById(req,res,next){
@@ -12,8 +12,8 @@ class Review{
   next();
   }
   static async sessionAlreadyExist(req,res,next){
-    const{questions,mentorId}=req.body
-    const session = await Session.sessionAlreadyExist(questions,mentorId)
+    const{questions,mentor_id}=req.body
+    const session = await Session.sessionAlreadyExist(questions,mentor_id)
     if(session.rows[0]) return res.status(409).send({status:409, message:'session already exists'})
     req.session = session.rows[0]
     
@@ -22,26 +22,25 @@ class Review{
   
 
   static async ifMentorExists(req, res, next) {
-    const user = await User.getUserById(req.body.mentorId)
+    const user = await User.getUserById(req.body.mentor_id)
     if (!user.rows[0]) return res.status(404).send({ status: 404, message: 'Mentor with the given Id not found' })
     next();
   }
 
   static notReviewYourSelf(req,res,next){
-    if(req.session.mentorId === req.user.id) return res.status(400).send({stasus:400,message:'you can not review yourself'})
+    if(req.session.mentor_id === req.user.id) return res.status(400).send({stasus:400,message:'you can not review yourself'})
       next()
     }
 
     static shdReviewYourOwn(req,res,next){
-      if(req.session.menteeId !== req.user.id) return res.status(400).send({status:400,message:'you canot review some ones session'})
+      if(req.session.mentee_id !== req.user.id) return res.status(400).send({status:400,message:'you canot review some ones session'})
         next()
     }
 
-    static notReviewAgain(req,res,next){
-      const sessionReview = sessionReviews.find(session => {
-        return session.menteeId === req.user.id  && session.sessionId === req.session.sessionId
-      }) 
-      if(sessionReview) return res.status(409).send({status:409, message:'you can not review again'})
+    static async notReviewAgain(req,res,next){
+      const{mentee_id,session_id}=req.session
+     const sessionReview = await Reviewsession.notReviewAgain(mentee_id,session_id) 
+      if(sessionReview.rows[0]) return res.status(409).send({status:409, message:'you can not review again'})
         next()
     }
   }

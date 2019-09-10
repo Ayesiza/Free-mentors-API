@@ -34,12 +34,12 @@ class Auth {
 
 
   static sessOwner(req, res, next) {
-    if (req.session.mentorid !== req.user.id) return res.status(403).send({ error: 403, message: 'not your session request' });
+    if (req.session.mentor_id !== req.user.id) return res.status(403).send({ error: 403, message: 'not your session request' });
   
     next();
   }
   static rejectOnlyOwn(req, res, next) {
-    if (req.session.mentorid !== req.user.id) return res.status(403).send({ error: 403, message: 'You cannot reject a session for another mentor' });
+    if (req.session.mentor_id !== req.user.id) return res.status(403).send({ error: 403, message: 'You cannot reject a session for another mentor' });
   
     next();
   }
@@ -56,8 +56,8 @@ class Auth {
     if (!user.rows[0]) return res.status(404).send({ message: 'user not found' });
     const hashedpassword = bcrypt.compareSync(req.body.password, user.rows[0].password)
     if (!hashedpassword) return res.status(400).send({ message: 'wrong email or password' })
-    const {id,admin,email,mentor} = user.rows[0]
-    req.token = jwt.sign({id,admin,email,mentor}, process.env.SECRETE_KEY, { expiresIn: '240hr' });
+    const {id,first_name,last_name,admin,email,mentor} = user.rows[0]
+    req.token = jwt.sign({id,first_name,last_name,admin,email,mentor}, process.env.SECRETE_KEY, { expiresIn: '240hr' });
     req.user = user.rows[0]
     next();
   }
@@ -79,8 +79,8 @@ class Auth {
   static validation(req, res, next) {
 
     const authSchema = Joi.object().keys({
-      firstName: Joi.string().trim().min(3).regex(/^[a-zA-Z]+$/).required(),
-      lastName: Joi.string().trim().min(3).regex(/^[a-zA-Z]+$/).required(),
+      first_name: Joi.string().trim().min(3).regex(/^[a-zA-Z]+$/).required(),
+      last_name: Joi.string().trim().min(3).regex(/^[a-zA-Z]+$/).required(),
       email: Joi.string().email({ minDomainSegments: 2 }).required(),
       password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
       address: Joi.string().min(3).regex(/^[a-zA-Z0-9]+$/).required(),

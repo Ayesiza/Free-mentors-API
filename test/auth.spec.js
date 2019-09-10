@@ -33,13 +33,13 @@ describe('auth routes', () => {
                 done();
             });
     });
-    it('invalid inputs firstName', (done) => {
+    it('invalid inputs first_name', (done) => {
         request(app)
             .post('/api/v1/users/auth/signup')
             .send(authData[2])
             .end((err, res) => {
                 res.status.should.equal(400);
-                res.body.message.should.equal("firstName field is invalid");
+                res.body.message.should.equal("first_name field is invalid");
                 done();
             });
     });
