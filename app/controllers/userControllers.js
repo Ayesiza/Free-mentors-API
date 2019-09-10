@@ -12,12 +12,12 @@ dotenv.config();
 export class UserController {
   static async signUpUser(req, res) {
 try{
-    const { firstName, lastName, email, address, bio, occupation, expertise, admin, mentor } = req.body;
+    const { first_name, last_name, email, address, bio, occupation, expertise, admin, mentor } = req.body;
     const hashPassword = bcrypt.hashSync(req.body.password, 10);
-    const user = new User(firstName, lastName, email, hashPassword, address, bio, occupation, expertise, admin, mentor)
+    const user = new User(first_name, last_name, email, hashPassword, address, bio, occupation, expertise, admin, mentor)
     const createdUser = await user.signUpUser()
     const { id } = createdUser.rows[0]
-    const token = jwt.sign({id, email, admin, mentor }, process.env.SECRETE_KEY, { expiresIn: '240hr' });
+    const token = jwt.sign({id, email, admin, mentor,first_name, last_name}, process.env.SECRETE_KEY, { expiresIn: '240hr' });
     const { password, ...noA } = createdUser.rows[0];
     return res.status(201).send({ status: 201, message: 'User created successfully',data:noA,token});
   } catch (error){
@@ -28,6 +28,7 @@ try{
 
   static signInUser(req, res) {
     const { password, ...noA } = req.user;
+    console.log()
     return res.send({ status: 200, message: 'User is successfully logged in',data:noA, token: req.token })
   }
 

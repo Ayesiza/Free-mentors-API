@@ -1,7 +1,7 @@
 export const authData = [
     {
-        firstName: 'kelvin',
-        lastName: 'bawer',
+        first_name: 'kelvin',
+        last_name: 'bawer',
         email: 'kelvin@gmail.com',
         password: 'kampala22',
         address: 'lagos',
@@ -12,8 +12,8 @@ export const authData = [
         mentor: false
     },
     {
-        firstName: 'jane',
-        lastName: 'joe',
+        first_name: 'jane',
+        last_name: 'joe',
         email: 'jane@gmail.com',
         password: 'kampala22',
         address: 'wakiso',
@@ -24,8 +24,8 @@ export const authData = [
         mentor: false
     },
     {
-        firstName: 'ja-ne',
-        lastName: 'joe',
+        first_name: 'ja-ne',
+        last_name: 'joe',
         email: 'jane@gmail.com',
         password: 'jane5555',
         address: 'wakiso',
@@ -52,8 +52,8 @@ export const authData = [
         password: 'kampala22',
     },
     {
-        firstName: 'ben',
-        lastName: 'ben',
+        first_name: 'ben',
+        last_name: 'ben',
         email: 'ben@gmail.com',
         password: 'kampala22',
         address: 'lagos',
@@ -68,8 +68,8 @@ export const authData = [
 
 export const mentorData = [
     {
-        firstName: 'sherifa',
-        lastName: 'mogan',
+        first_name: 'sherifa',
+        last_name: 'mogan',
         email: 'sherifamogan@gmail.com',
         password: 'kampala22',
         address: 'lagos',
@@ -89,20 +89,20 @@ export const mentorData = [
 
 export const sessionData = [
     {
-        mentorId: 2,
+        mentor_id: 2,
         questions: 'Which leadership skills were the most difficult to you?'
     },
     {
         score: 5,
-        remark: 'very good'
+        remarks: 'very good'
     },
     {
         email: 'martin@gmail.com',
         password: 'kampala22'
     },
     {
-        firstName: 'kimuli',
-        lastName: 'grace',
+        first_name: 'kimuli',
+        last_name: 'grace',
         email: 'betty@gmail.com',
         password: 'kampala22',
         address: 'hoima',
@@ -120,7 +120,7 @@ export const sessionData = [
        
     },
     {
-        mentorId: 1,
+        mentor_id: 1,
         questions: 'Which leadership skills were the most  to you?'
     },
 ]

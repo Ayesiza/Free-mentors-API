@@ -3,9 +3,9 @@ import client from '../services/database';
 
 
 class User {
-    constructor(firstName, lastName, email, password, address, bio, occupation, expertise, admin, mentor){
-        this.firstName = firstName;
-        this.lastName = lastName;
+    constructor(first_name, last_name, email, password, address, bio, occupation, expertise, admin, mentor){
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.email = email;
         this.password = password;
         this.address = address;
@@ -16,8 +16,8 @@ class User {
         this. mentor = mentor; 
     }
     signUpUser(){
-        const userQuery = 'INSERT INTO users(firstName, lastName, email, password, address, bio, occupation, expertise, admin, mentor) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) returning *';
-        const values = [this.firstName, this.lastName, this.email, this.password, this.address, this.bio, this.occupation, this.expertise, this.admin, this.mentor]
+        const userQuery = 'INSERT INTO users(first_name, last_name, email, password, address, bio, occupation, expertise, admin, mentor) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) returning *';
+        const values = [this.first_name, this.last_name, this.email, this.password, this.address, this.bio, this.occupation, this.expertise, this.admin, this.mentor]
         return client.query(userQuery, values); 
     }
     static getUserByEmail(email) {
