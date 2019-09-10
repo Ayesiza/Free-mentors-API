@@ -1,5 +1,3 @@
-import jwt from 'jsonwebtoken';
-import  { sessions } from '../data/sessionData'
 import client from '../services/database';
 
 class Session {

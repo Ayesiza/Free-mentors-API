@@ -1,4 +1,3 @@
-import  { users } from '../data/userData'
 import client from '../services/database';
 
 
