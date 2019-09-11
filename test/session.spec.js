@@ -21,7 +21,18 @@ describe('Tests session routes', () => {
                 done();
             });
     });
-    it('create Mentorship session', (done) => {
+    it('specficMentor not a mentor', (done) => {
+        request(app)
+            .get('/api/v1/mentor/3')
+            .set('Authorization', `Bearer ${userToken}`)
+            .end((err, res) => {
+                res.status.should.equal(400);
+                res.body.message.should.equal('selected user is  not a mentor');
+                done();
+            });
+    });
+
+    it('create Mentorship session1', (done) => {
         request(app)
             .post('/api/v1/sessions')
             .set('Authorization', `Bearer ${userToken}`)
@@ -57,7 +68,19 @@ describe('Tests session routes', () => {
                 done();
             });
     });
-    it('create Mentorship session session aready exist', (done) => {
+    it('create Mentorship session3', (done) => {
+        request(app)
+            .post('/api/v1/sessions')
+            .set('Authorization', `Bearer ${userToken}`)
+            .set('Accept', 'application/json')
+            .send(sessionData[7])
+            .end((err, res) => {
+                res.status.should.equal(200);
+
+                done();
+            });
+    });
+    it('Session aready exist', (done) => {
         request(app)
             .post('/api/v1/sessions')
             .set('Authorization', `Bearer ${userToken}`)
@@ -103,6 +126,22 @@ describe('Tests mentorship  sessions routes', () => {
                 done();
             });
     });
+   
+
+    it('Review session you cannot review someones session', (done) => {
+        request(app)
+            .post('/api/v1/sessions/3/review')
+            .set('Authorization', `Bearer ${token}`)
+            .set('Accept', 'application/json')
+            .send(sessionData[1])
+            .end((err, res) => {
+                
+                res.body.message.should.equal('you canot review someones session');
+                done();
+            });
+    });
+
+
     it('Not accept session already accepted', (done) => {
         request(app)
             .patch('/api/v1/sessions/1/accept')
@@ -123,7 +162,7 @@ describe('Tests mentorship  sessions routes', () => {
                 done();
             });
     });
-    it('accept mentorship session not exit', (done) => {
+    it('Accept mentorship session not exit', (done) => {
         request(app)
             .patch('/api/v1/sessions/9/accept')
             .set('Authorization', `Bearer ${token}`)
@@ -151,8 +190,6 @@ describe('Tests mentorship  sessions routes', () => {
                 done();
             });
     });
-  
-
 });
 
 describe('Tests Review session routes', () => {
@@ -178,30 +215,6 @@ describe('Tests Review session routes', () => {
                 done();
             });
     });
-    // it('Review session you cannot review yourself', (done) => {
-    //     request(app)
-    //         .post('/api/v1/sessions/3/review')
-    //         .set('Authorization', `Bearer ${token}`)
-    //         .set('Accept', 'application/json')
-    //         .send(sessionData[1])
-    //         .end((err, res) => {
-    //             res.status.should.equal(400);
-    //             res.body.message.should.equal('you can not review yourself');
-    //             done();
-    //         });
-    // });
-    // it('Review session you cannot review someones session', (done) => {
-    //     request(app)
-    //         .post('/api/v1/sessions/1/review')
-    //         .set('Authorization', `Bearer ${token}`)
-    //         .set('Accept', 'application/json')
-    //         .send(sessionData[1])
-    //         .end((err, res) => {
-    //             res.status.should.equal(400);
-    //             res.body.message.should.equal('you canot review someones session');
-    //             done();
-    //         });
-    // });
     it('Review session not review again', (done) => {
         request(app)
             .post('/api/v1/sessions/3/review')
@@ -214,4 +227,5 @@ describe('Tests Review session routes', () => {
                 done();
             });
     });
+   
 });

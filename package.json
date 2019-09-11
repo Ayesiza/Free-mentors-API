@@ -6,6 +6,9 @@
   "nyc": {
     "require": [
       "@babel/register"
+    ],
+    "exclude": [
+      "**/**/**/database.js"
     ]
   },
   "scripts": {

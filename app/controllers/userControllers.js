@@ -51,7 +51,7 @@ try{
 
  
   static specificMentor(req, res) {
-    if (req.user.mentor === false) return res.send({ status: 404, message: 'Selected User is  not a mentor' })
+    if (req.user.mentor === false) return res.status(400).send({ status: 400, message: 'selected user is  not a mentor' })
     const { password, ...noA } = req.user;
     return res.send({ status: 200, user: noA })
 

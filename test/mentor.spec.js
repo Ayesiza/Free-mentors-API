@@ -185,13 +185,5 @@ describe('Tests all specific mentor routes', () => {
                 done();
             });
     });
-    it('specficMentor not a mentor', (done) => {
-        request(app)
-            .get('/api/v1/mentor/2')
-            .set('Authorization', `Bearer ${userToken}`)
-            .end((err, res) => {
-
-                done();
-            });
-    });
+   
 });

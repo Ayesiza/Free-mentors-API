@@ -1,18 +1,20 @@
-language:      node_js
-git:
-  depth:       3
+language: node_js
+
 node_js:
-  - "10"
-install:       npm install
-cache:
-  directories:
-    - node_modules
+  - "stable"
+
+install: npm install
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'CREATE DATABASE test-db;' -U postgres
+
 script:
   - npm test
 after_success:
 - npm run coveralls
 
-notifications:
-  email:       false
 
   

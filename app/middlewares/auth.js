@@ -33,16 +33,12 @@ class Auth {
   }
 
 
-  static sessOwner(req, res, next) {
+  static sessionOwner(req, res, next) {
     if (req.session.mentor_id !== req.user.id) return res.status(403).send({ error: 403, message: 'not your session request' });
   
     next();
   }
-  static rejectOnlyOwn(req, res, next) {
-    if (req.session.mentor_id !== req.user.id) return res.status(403).send({ error: 403, message: 'You cannot reject a session for another mentor' });
   
-    next();
-  }
   static async checkIfUserExist(req, res, next) {
     const { email } = req.body;
     const finduser = await User.getUserByEmail(email);
