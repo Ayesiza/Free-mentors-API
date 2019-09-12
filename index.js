@@ -21,8 +21,8 @@ app.use('/docs', swagger.serve, swagger.setup(swaggerDoc));
 
 app.all('/*', (req, res) => {
   res.status(404).json({
-    status: 404,
-    error: 'this  does not exist'
+    status_code: 404,
+    error: 'this route does not exist'
   });
 });
 

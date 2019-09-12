@@ -27,7 +27,7 @@ describe('Tests session routes', () => {
             .set('Authorization', `Bearer ${userToken}`)
             .end((err, res) => {
                 res.status.should.equal(400);
-                res.body.message.should.equal('selected user is  not a mentor');
+                res.body.error.should.equal('selected user is  not a mentor');
                 done();
             });
     });
@@ -88,7 +88,7 @@ describe('Tests session routes', () => {
             .send(sessionData[0])
             .end((err, res) => {
                 res.status.should.equal(409);
-                res.body.message.should.equal('session already exists');
+                res.body.error.should.equal('session already exists');
                 done();
             });
     });
@@ -99,7 +99,7 @@ describe('Tests session routes', () => {
             .set('Authorization', `Bearer ${userToken}`)
             .end((err, res) => {
                 res.status.should.equal(403);
-                res.body.message.should.equal('for only mentor');
+                res.body.error.should.equal('for only mentor');
                 done();
             });
     });
@@ -136,11 +136,22 @@ describe('Tests mentorship  sessions routes', () => {
             .send(sessionData[1])
             .end((err, res) => {
                 
-                res.body.message.should.equal('you canot review someones session');
+                res.body.error.should.equal('you cannot review someones session');
                 done();
             });
     });
-
+    it('Review session you cannot review yourself', (done) => {
+        request(app)
+            .post('/api/v1/sessions/1/review')
+            .set('Authorization', `Bearer ${token}`)
+            .set('Accept', 'application/json')
+            .send(sessionData[1])
+            .end((err, res) => {
+                res.status.should.equal(400);
+                res.body.error.should.equal('you can not review yourself');
+                done();
+            });
+    });
 
     it('Not accept session already accepted', (done) => {
         request(app)
@@ -148,7 +159,7 @@ describe('Tests mentorship  sessions routes', () => {
             .set('Authorization', `Bearer ${token}`)
             .end((err, res) => {
                 res.status.should.equal(409);
-                res.body.message.should.equal('Session Already Accepted');
+                res.body.error.should.equal('Session Already Accepted');
                 done();
             });
     });
@@ -158,7 +169,7 @@ describe('Tests mentorship  sessions routes', () => {
             .set('Authorization', `Bearer ${token}`)
             .end((err, res) => {
                 res.status.should.equal(403);
-                res.body.message.should.equal('not your session request');
+                res.body.error.should.equal('not your session request');
                 done();
             });
     });
@@ -223,7 +234,7 @@ describe('Tests Review session routes', () => {
             .send(sessionData[1])
             .end((err, res) => {
                 res.status.should.equal(409);
-                res.body.message.should.equal('you can not review again');
+                res.body.error.should.equal('you can not review again');
                 done();
             });
     });

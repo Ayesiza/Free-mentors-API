@@ -8,21 +8,21 @@ export class SessionController {
     const { id, email } = req.user
     const newSession = new Session(mentor_id, questions, id, email)
     const session = await newSession.createSession();
-    return res.status(200).send({ status: 200, data:session.rows[0]});
+    return res.status(200).send({ status_code: 200, data:session.rows[0]});
   }  catch (error){
-    return res.status(400).send({status:400, message:error.message});
+    return res.status(400).send({status_code:400, message:error.message});
   }
   };
 
   static async acceptMentorshipSession(req, res) {
-    if(req.session.status==='accepted') return res.status(409).send({status:409, message:'Session Already Accepted'})
+    if(req.session.status==='accepted') return res.status(409).send({status_code:409, error:'Session Already Accepted'})
     const session = await Session.acceptMentorshipSession((req.session.session_id))
-    return res.send({ status:200, session:session.rows[0]})
+    return res.send({ status_code:200, session:session.rows[0]})
   };
  
   static async rejectSession(req, res) {
     const session = await Session.rejectSession(req.session.session_id)
-    return res.send({ status: 200, session:session.rows[0]})
+    return res.send({ status_code: 200, session:session.rows[0]})
   }
 
   
@@ -39,7 +39,7 @@ export class SessionController {
           remarks: remarks,
       }
     const review = await reviewSession.reviewSession(sessionReview)
-      return res.status(201).send({status:201,data:review.rows[0]})
+      return res.status(201).send({status_code:201,data:review.rows[0]})
    
     
   }
