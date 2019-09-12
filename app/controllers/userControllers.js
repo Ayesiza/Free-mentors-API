@@ -52,7 +52,7 @@ try{
   static specificMentor(req, res) {
     if (req.user.mentor === false) return res.status(400).send({ status_code: 400, error: 'selected user is  not a mentor' })
     const { password, ...noA } = req.user;
-    return res.send({ status_code: 200, user: noA })
+    return res.send({ status_code: 200, message:'Here is your mentor you requested for', user: noA })
 
   }
 

@@ -147,8 +147,8 @@ describe('Tests all specific mentor routes', () => {
     let userToken = '';
     before((done) => {
         request(app)
-            .post('/api/v1/users/auth/signin')
-            .send(mentorData[1])
+        .post('/api/v1/users/auth/signin')
+        .send(authData[6])
             .end((err, res) => {
                 userToken = res.body.token;
                 done();
@@ -160,9 +160,11 @@ describe('Tests all specific mentor routes', () => {
             .set('Authorization', `Bearer ${userToken}`)
             .end((err, res) => {
                 res.status.should.equal(200);
+                res.body.message.should.equal('Here is your mentor you requested for');
                 done();
             });
     });
+  
   
     it('specfic invalid param', (done) => {
         request(app)
