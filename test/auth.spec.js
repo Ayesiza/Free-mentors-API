@@ -26,7 +26,7 @@ describe('auth routes', () => {
             .post('/api/v1/users/auth/signup')
             .send(authData[0])
             .end((err, res) => {
-                res.body.message.should.equal('user already exist');
+                res.body.error.should.equal('user already exist');
                 done();
             });
     });
@@ -36,7 +36,7 @@ describe('auth routes', () => {
             .send(authData[2])
             .end((err, res) => {
                 res.status.should.equal(400);
-                res.body.message.should.equal("first_name field is invalid");
+                res.body.error.should.equal("first_name field is invalid");
                 done();
             });
     });
@@ -57,7 +57,7 @@ describe('auth routes', () => {
             .send(authData[14])
             .end((err, res) => {
                 res.status.should.equal(404);
-                res.body.message.should.equal('user not found');
+                res.body.error.should.equal('user not found');
                 done();
             });
     });
@@ -68,7 +68,7 @@ describe('auth routes', () => {
             .send(authData[5])
             .end((err, res) => {
                 res.status.should.equal(400);
-                res.body.message.should.equal('wrong email or password');
+                res.body.error.should.equal('wrong email or password');
                 done();
             });
     });

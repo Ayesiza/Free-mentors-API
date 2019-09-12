@@ -61,7 +61,7 @@ describe('Tests usermentor routes', () => {
             .set('Authorization', `Bearer ${adminToken}`)
             .end((err, res) => {
                 res.status.should.equal(400);
-                res.body.message.should.equal('parameter should be a valid number');
+                res.body.error.should.equal('parameter should be a valid number');
                 done();
             });
     });
@@ -71,7 +71,7 @@ describe('Tests usermentor routes', () => {
             .set('Authorization', `Bearer ${adminToken}`)
             .end((err, res) => {
                 res.status.should.equal(404);
-                res.body.message.should.equal('user of the given Id not found');
+                res.body.error.should.equal('user of the given Id not found');
                 done();
             });
     });
@@ -81,7 +81,7 @@ describe('Tests usermentor routes', () => {
             .set('Authorization', `Bearer ${adminToken}`)
             .end((err, res) => {
 
-                res.body.message.should.equal('User is already a mentor');
+                res.body.error.should.equal('User is already a mentor');
                 done();
             });
     });
@@ -126,7 +126,7 @@ describe('Tests all usermentor routes', () => {
             .set('Authorization', `Bearer ${userToken}`)
             .end((err, res) => {
 
-                res.body.message.should.equal('for only admin');
+                res.body.error.should.equal('for only admin');
                 done();
             });
     });
@@ -136,7 +136,7 @@ describe('Tests all usermentor routes', () => {
             .get('/api/v1/mentors')
             .end((err, res) => {
                 res.status.should.equal(403);
-                res.body.message.should.equal('provide a token');
+                res.body.error.should.equal('provide a token');
                 done();
             });
     });
@@ -147,8 +147,8 @@ describe('Tests all specific mentor routes', () => {
     let userToken = '';
     before((done) => {
         request(app)
-            .post('/api/v1/users/auth/signin')
-            .send(mentorData[1])
+        .post('/api/v1/users/auth/signin')
+        .send(authData[6])
             .end((err, res) => {
                 userToken = res.body.token;
                 done();
@@ -160,9 +160,11 @@ describe('Tests all specific mentor routes', () => {
             .set('Authorization', `Bearer ${userToken}`)
             .end((err, res) => {
                 res.status.should.equal(200);
+                res.body.message.should.equal('Here is your mentor you requested for');
                 done();
             });
     });
+  
   
     it('specfic invalid param', (done) => {
         request(app)
@@ -170,7 +172,7 @@ describe('Tests all specific mentor routes', () => {
             .set('Authorization', `Bearer ${userToken}`)
             .end((err, res) => {
                 res.status.should.equal(400);
-                res.body.message.should.equal('parameter should be a valid number');
+                res.body.error.should.equal('parameter should be a valid number');
                 done();
             });
     });
@@ -181,7 +183,7 @@ describe('Tests all specific mentor routes', () => {
             .set('Authorization', `Bearer ${userToken}`)
             .end((err, res) => {
                 res.status.should.equal(404);
-                res.body.message.should.equal('user of the given Id not found');
+                res.body.error.should.equal('user of the given Id not found');
                 done();
             });
     });
