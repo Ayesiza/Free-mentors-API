@@ -38,7 +38,15 @@ class Auth {
   
     next();
   }
-  
+  static noMentorToCreateSession(req,res,next){
+    if(req.user.mentor === true) return res.status(400).send({status_code:400,error:'As a mentor you can not create own session'})
+    next()
+  }
+  static noMentorViewToMentor(req,res,next){
+    if(req.user.mentor === true) return res.status(400).send({status_code:400,error:'You can not view fellow mentors'})
+    next()
+  }
+
   static async checkIfUserExist(req, res, next) {
     const { email } = req.body;
     const finduser = await User.getUserByEmail(email);
@@ -97,8 +105,9 @@ class Auth {
     next();
   }
 
- 
+  
 
+  
 }
 
 

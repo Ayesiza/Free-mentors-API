@@ -88,6 +88,23 @@ export const mentorData = [
         email: 'ben@gmail.com',
         password: 'kampala22'
     },
+    {
+        mentor_id: 2,
+        questions: ' leadership skills were the most  to y?'
+    },
+    {
+        first_name: 'mariamu',
+        last_name: 'clintom',
+        email: 'mariam@gmail.com',
+        password: 'kampala22',
+        address: 'lagos',
+        bio: 'born in November 4, 1989',
+        occupation: 'unversity student',
+        expertise: 'student of business',
+        admin: false,
+        mentor: false
+    }
+
     
 ]
 
@@ -134,6 +151,7 @@ export const sessionData = [
     {
         mentor_id: 2,
         questions: 'what leadership skills were the most  to y?'
-    },
+    }
+  
 
 ]

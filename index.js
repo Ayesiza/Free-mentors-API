@@ -20,9 +20,9 @@ app.use('/docs', swagger.serve, swagger.setup(swaggerDoc));
 
 
 app.all('/*', (req, res) => {
-  res.status(404).json({
-    status_code: 404,
-    error: 'this route does not exist'
+  res.status(405).json({
+    status_code: 405,
+    error: 'Check your method/route is not allowed to be used'
   });
 });
 

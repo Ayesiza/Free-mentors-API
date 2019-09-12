@@ -25,16 +25,15 @@ try{
   }
   };
 
-
   static signInUser(req, res) {
     const { password, ...noA } = req.user;
-    return res.send({ status_code: 200, message: 'User is successfully logged in',data:noA, token: req.token })
+    return res.status(200).send({ status_code: 200, message: 'User is successfully logged in',data:noA, token: req.token })
   }
 
   static changeUserToMentor(req, res) {
     if (req.user.mentor === true) return res.send({ status_code: 409, error: 'User is already a mentor' })
     User.changeUserToMentor(req.user.id)
-    return res.send({ status_code: 200, message: 'User account changed to mentor' })
+    return res.status(200).send({ status_code: 200, message: 'User account changed to mentor' })
   }
 
   static async getAllMentors(req, res) {
@@ -44,7 +43,7 @@ try{
       const { password, ...noA } = mentors.rows[mentor];
       data.push(noA)
     }
-    return res.send({ status_code: 200, data})
+    return res.status(200).send({ status_code: 200, message:'Here are our mentors' , data})
 
   }
 
@@ -52,7 +51,7 @@ try{
   static specificMentor(req, res) {
     if (req.user.mentor === false) return res.status(400).send({ status_code: 400, error: 'selected user is  not a mentor' })
     const { password, ...noA } = req.user;
-    return res.send({ status_code: 200, message:'Here is your mentor you requested for', user: noA })
+    return  res.status(200).send({ status_code: 200, message:'Here is your mentor you requested for', user: noA })
 
   }
 

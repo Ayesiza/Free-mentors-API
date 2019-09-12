@@ -2,18 +2,8 @@ import express from 'express'
 import request from 'supertest';
 import should from 'should';
 import apiRouters from '../app/routers/apiRouters';
-import {
-    authData
-}
-from './testData'
-import {
-    mentorData
-}
-from './testData'
-import {
-    sessionData
-}
-from './testData'
+import { authData, mentorData,sessionData } from './testData'
+
 
 const app = express();
 
@@ -32,7 +22,7 @@ describe('Tests usermentor routes', () => {
                 done();
             });
     });
-
+   
     it('changeUserToMentor', (done) => {
         request(app)
             .patch('/api/v1/user/1')
@@ -98,59 +88,25 @@ describe('Tests usermentor routes', () => {
 
 });
 
-describe('Tests all usermentor routes', () => {
+
+describe('Tests all  mentors routes', () => {
     let userToken = '';
     before((done) => {
         request(app)
-            .post('/api/v1/users/auth/signin')
-            .send(authData[6])
+        .post('/api/v1/users/auth/signup')
+        .send(mentorData[4])
             .end((err, res) => {
                 userToken = res.body.token;
                 done();
             });
     });
-
     it('tests allMentors', (done) => {
         request(app)
             .get('/api/v1/mentors')
             .set('Authorization', `Bearer ${userToken}`)
             .end((err, res) => {
                 res.status.should.equal(200);
-
-                done();
-            });
-    });
-    it('changeUserToMentor adminFalse', (done) => {
-        request(app)
-            .patch('/api/v1/user/1')
-            .set('Authorization', `Bearer ${userToken}`)
-            .end((err, res) => {
-
-                res.body.error.should.equal('for only admin');
-                done();
-            });
-    });
-
-    it('tests allMentors get token', (done) => {
-        request(app)
-            .get('/api/v1/mentors')
-            .end((err, res) => {
-                res.status.should.equal(403);
-                res.body.error.should.equal('provide a token');
-                done();
-            });
-    });
-
-});
-
-describe('Tests all specific mentor routes', () => {
-    let userToken = '';
-    before((done) => {
-        request(app)
-        .post('/api/v1/users/auth/signin')
-        .send(authData[6])
-            .end((err, res) => {
-                userToken = res.body.token;
+                res.body.message.should.equal('Here are our mentors');
                 done();
             });
     });
@@ -179,7 +135,7 @@ describe('Tests all specific mentor routes', () => {
 
     it('specficMentor not found', (done) => {
         request(app)
-            .get('/api/v1/mentor/10')
+            .get('/api/v1/mentor/56')
             .set('Authorization', `Bearer ${userToken}`)
             .end((err, res) => {
                 res.status.should.equal(404);
@@ -187,5 +143,23 @@ describe('Tests all specific mentor routes', () => {
                 done();
             });
     });
-   
+    it('changeUserToMentor adminFalse', (done) => {
+        request(app)
+            .patch('/api/v1/user/1')
+            .set('Authorization', `Bearer ${userToken}`)
+            .end((err, res) => {
+
+                res.body.error.should.equal('for only admin');
+                done();
+            });
+    });
+    it('tests allMentors get token', (done) => {
+        request(app)
+            .get('/api/v1/mentors')
+            .end((err, res) => {
+                res.status.should.equal(403);
+                res.body.error.should.equal('provide a token');
+                done();
+            });
+    });
 });
