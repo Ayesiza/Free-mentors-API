@@ -12,8 +12,8 @@ router.patch('/user/:id',  auth.getToken, auth.verifyUserToken,auth.checkParamsI
 router.get('/mentors', auth.getToken,auth.verifyUserToken, auth.noMentorViewToMentor, user.getAllMentors);
 router.get('/mentor/:id', auth.getToken, auth.verifyUserToken,auth.checkParamsInPut, auth.noMentorViewToMentor,auth.getUserById, user.specificMentor);
 router.post('/sessions',auth.getToken, auth.verifyUserToken , auth.noMentorToCreateSession, review.sessionAlreadyExist,review.checkIfMentor,review.ifMentorExists, session.createSession);
-router.patch('/sessions/:id/accept', auth.getToken, auth.verifyUserToken, auth.userMentor, review.getSessionById,auth.sessionOwner, session.acceptMentorshipSession);
-router.patch('/sessions/:id/reject', auth.getToken, auth.verifyUserToken, auth.userMentor,review.getSessionById, auth.sessionOwner,session.rejectSession);
+router.patch('/sessions/:id/accept', auth.getToken, auth.verifyUserToken, auth.userMentor, review.getSessionById,auth.sessionOwner, auth.checkStatus, session.acceptMentorshipSession);
+router.patch('/sessions/:id/reject', auth.getToken, auth.verifyUserToken, auth.userMentor,review.getSessionById, auth.sessionOwner,auth.checkStatus,session.rejectSession);
 router.post('/sessions/:id/review',auth.getToken, auth.verifyUserToken, review.getSessionById,review.notReviewYourSelf, review.notReviewAgain,review.shdReviewYourOwn, session.reviewSession )
 
 export default router;

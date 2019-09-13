@@ -19,13 +19,6 @@ app.use('/docs', swagger.serve, swagger.setup(swaggerDoc));
 
 
 
-app.all('/*', (req, res) => {
-  res.status(405).json({
-    status_code: 405,
-    error: 'Check your method/route is not allowed to be used'
-  });
-});
-
 
 app.use((req, res, next) => {
   const error = new Error('method used is not allowed');

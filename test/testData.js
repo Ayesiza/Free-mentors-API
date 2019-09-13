@@ -103,8 +103,11 @@ export const mentorData = [
         expertise: 'student of business',
         admin: false,
         mentor: false
-    }
-
+    },
+    {
+        mentor_id: 2,
+        questions: ' leadershithjp skills were the most  to y?'
+    },
     
 ]
 
@@ -151,6 +154,10 @@ export const sessionData = [
     {
         mentor_id: 2,
         questions: 'what leadership skills were the most  to y?'
+    },
+    {
+        mentor_id: 2,
+        questions: 'p skills were the most  to y?'
     }
   
 

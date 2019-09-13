@@ -105,6 +105,10 @@ class Auth {
     next();
   }
 
+  static checkStatus(req,res,next){
+    if(req.session.status === 'accepted' || req.session.status === 'rejected') return res.status(409).send({status_code:409, error:`Session Already ${req.session.status}`})
+    next()
+  }
   
 
   

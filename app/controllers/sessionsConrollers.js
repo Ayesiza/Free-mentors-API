@@ -15,7 +15,6 @@ export class SessionController {
   };
 
   static async acceptMentorshipSession(req, res) {
-    if(req.session.status==='accepted') return res.status(409).send({status_code:409, error:'Session Already Accepted'})
     const session = await Session.acceptMentorshipSession((req.session.session_id))
     return res.status(200).send({ status_code:200, session:session.rows[0]})
   };
