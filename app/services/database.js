@@ -7,6 +7,7 @@ const client = process.env.NODE_ENV === 'test'
 ? new Client({connectionString:process.env.TEST_DATABASE})
 : new Client({connectionString:process.env.DATABASE_URL, ssl:true})
 
+
 const users = `create table if not exists
       users (
         id serial primary key,

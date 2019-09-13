@@ -68,7 +68,7 @@ describe('Tests session routes', () => {
                 done();
             });
     });
-    it('create Mentorship session3', (done) => {
+    it('create Mentorship session4', (done) => {
         request(app)
             .post('/api/v1/sessions')
             .set('Authorization', `Bearer ${userToken}`)
@@ -104,6 +104,33 @@ describe('Tests session routes', () => {
             });
     });
 });
+
+describe('Tests session routes', () => {
+    let userToken = '';
+    before((done) => {
+        request(app)
+            .post('/api/v1/users/auth/signin')
+            .send(mentorData[2])
+            .end((err, res) => {
+                userToken = res.body.token;
+                done();
+            });
+    });
+    it('create Mentorship session6', (done) => {
+        request(app)
+            .post('/api/v1/sessions')
+            .set('Authorization', `Bearer ${userToken}`)
+            .set('Accept', 'application/json')
+            .send(mentorData[5])
+            .end((err, res) => {
+                res.status.should.equal(200);
+
+                done();
+            });
+    });
+});
+
+
 
 describe('Tests mentorship  sessions routes', () => {
     let token = '';
@@ -159,7 +186,7 @@ describe('Tests mentorship  sessions routes', () => {
             .set('Authorization', `Bearer ${token}`)
             .end((err, res) => {
                 res.status.should.equal(409);
-                res.body.error.should.equal('Session Already Accepted');
+                res.body.error.should.equal('Session Already accepted');
                 done();
             });
     });
@@ -185,7 +212,7 @@ describe('Tests mentorship  sessions routes', () => {
 
     it('reject mentorship session', (done) => {
         request(app)
-            .patch('/api/v1/sessions/1/reject')
+            .patch('/api/v1/sessions/5/reject')
             .set('Authorization', `Bearer ${token}`)
             .end((err, res) => {
                 res.status.should.equal(200);

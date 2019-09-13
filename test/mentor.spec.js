@@ -85,6 +85,28 @@ describe('Tests usermentor routes', () => {
                 done();
             });
     });
+    it('create Mentorship session5', (done) => {
+        request(app)
+            .post('/api/v1/sessions')
+            .set('Authorization', `Bearer ${adminToken}`)
+            .set('Accept', 'application/json')
+            .send(sessionData[8])
+            .end((err, res) => {
+                res.status.should.equal(400);
+                res.body.error.should.equal('As a mentor you can not create own session');
+                done();
+            });
+    });
+    it('tests mentors admin cannot', (done) => {
+        request(app)
+            .get('/api/v1/mentors')
+            .set('Authorization', `Bearer ${adminToken}`)
+            .end((err, res) => {
+                res.status.should.equal(400);
+                res.body.error.should.equal('You can not view fellow mentors');
+                done();
+            });
+    });
 
 });
 
